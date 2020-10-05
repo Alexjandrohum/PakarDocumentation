@@ -1,0 +1,107 @@
+package com.grupopakar.grupopakarappws.dao;
+
+import com.grupopakar.grupopakarappws.dto.TiendaDTO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import mx.com.pakar.util.Factory;
+import mx.com.pakar.util.Util;
+
+/**
+ *
+ * @author carlos.juarez
+ */
+public class TiendaDAO {
+
+    public boolean validaLatitud(String latitud) {
+        Double l = Double.valueOf(latitud);
+        return (l > -90) && (l <= 90);
+    }
+
+    public boolean validaLongitud(String longitud) {
+        Double l = Double.valueOf(longitud);
+        return (l > -180) && (l <= 180);
+    }                                                                                                          
+
+    public List<TiendaDTO> getTiendasCercanas(String token, String lat, String lon, Connection con) {
+        List<TiendaDTO> tiendas = new ArrayList<TiendaDTO>();
+        String query = 
+                  "SELECT "
+                + "     TOP (SELECT CAST(valor AS INT) FROM gpa.propiedad WHERE clave = 'max_tiendas') "
+                + "     t.id_tienda, t.numero, t.clave_tienda, t.nombre, t.ciudad, t.tipo_tienda, ISNULL(t.supervisor, 'N/A') supervisor,   "
+                + "     gpa.calcula_distancia(?, ?, t.id_tienda) AS distancia   "
+                + "FROM gpa.tienda t WITH(NOLOCK)   "
+                + "INNER JOIN gpa.usuario_tienda ut WITH(NOLOCK) ON t.id_tienda = ut.id_tienda   "
+                + "INNER JOIN gpa.usuario u WITH(NOLOCK) ON ut.id_usuario = u.id_usuario "
+                + "WHERE u.token_usuario = ? "
+                + "ORDER BY distancia ";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, lat);
+            ps.setString(2, lon);
+            ps.setString(3, token);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                TiendaDTO t = new TiendaDTO();
+                t.setIdTienda(rs.getInt("id_tienda"));
+                t.setNumeroTienda(rs.getString("numero"));
+                t.setCveTienda(rs.getString("clave_tienda"));
+                t.setNombreTienda(rs.getString("nombre"));
+                t.setCiudad(rs.getString("ciudad"));
+                t.setTipoTienda(rs.getString("tipo_tienda"));
+                t.setSupervisor(rs.getString("supervisor"));
+                tiendas.add(t);
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return tiendas;
+    }
+
+    public List<TiendaDTO> getTiendasCoincidentes(String token, String desc, Connection con) {
+        List<TiendaDTO> tiendas = new ArrayList<TiendaDTO>();
+        String query = 
+                  "SELECT \n"
+                + "	t.id_tienda, t.numero, t.clave_tienda, t.nombre, t.ciudad, t.tipo_tienda, ISNULL(t.supervisor, 'N/A') supervisor \n"
+                + "FROM gpa.tienda t WITH(NOLOCK) \n"
+                + "INNER JOIN gpa.usuario_tienda ut WITH(NOLOCK) ON t.id_tienda = ut.id_tienda \n"
+                + "WHERE (t.numero LIKE ? OR t.clave_tienda LIKE ? OR nombre LIKE ? OR ciudad LIKE ?) \n"
+                + "AND (ut.id_usuario = (SELECT id_usuario FROM gpa.usuario WHERE token_usuario = ? )) \n"
+                + "ORDER BY t.nombre ";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, "%" + desc + "%");
+            ps.setString(2, "%" + desc + "%");
+            ps.setString(3, "%" + desc + "%");
+            ps.setString(4, "%" + desc + "%");
+            ps.setString(5, token);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                TiendaDTO t = new TiendaDTO();
+                t.setIdTienda(rs.getInt("id_tienda"));
+                t.setNumeroTienda(rs.getString("numero"));
+                t.setCveTienda(rs.getString("clave_tienda"));
+                t.setNombreTienda(rs.getString("nombre"));
+                t.setCiudad(rs.getString("ciudad"));
+                t.setTipoTienda(rs.getString("tipo_tienda"));
+                t.setSupervisor(rs.getString("supervisor"));
+                tiendas.add(t);
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return tiendas;
+    }
+}

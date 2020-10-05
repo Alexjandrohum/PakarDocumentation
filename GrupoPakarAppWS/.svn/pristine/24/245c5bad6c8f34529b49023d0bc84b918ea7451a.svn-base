@@ -1,0 +1,73 @@
+package com.grupopakar.grupopakarappws.delegate;
+
+import com.grupopakar.grupopakarappws.dao.InfoTiendaDAO;
+import com.grupopakar.grupopakarappws.dao.LoginDAO;
+import com.grupopakar.grupopakarappws.dto.EstadoDTO;
+import com.grupopakar.grupopakarappws.dto.GpoInfoTiendaDTO;
+import com.grupopakar.grupopakarappws.dto.InfoTiendaDTO;
+import com.grupopakar.grupopakarappws.dto.MensajeDTO;
+import com.grupopakar.grupopakarappws.util.EstadoHTTPEnum;
+import com.grupopakar.grupopakarappws.util.GsonUtil;
+import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author rosa.zalas
+ */
+public class InfoTiendaDelegate {
+
+    private final InfoTiendaDAO infoTiendaDAO;
+
+    public InfoTiendaDelegate() {
+        this.infoTiendaDAO = new InfoTiendaDAO();
+    }
+
+    public EstadoDTO infoTienda(int idTienda, String tokenDeUsuario, Connection con) {
+        EstadoDTO estado = new EstadoDTO();
+        List<GpoInfoTiendaDTO> lista = new ArrayList<GpoInfoTiendaDTO>();
+        int idUsuario = 0;
+
+        idUsuario = infoTiendaDAO.buscaTokenUsuario(tokenDeUsuario, con);
+        if (idUsuario != 0) {
+            lista = infoTiendaDAO.getInfoTienda(idTienda, idUsuario, con);
+            if (!lista.isEmpty()) {
+                estado.setEstado(EstadoHTTPEnum.OK);
+                estado.setObjeto(GsonUtil.gson.toJson(lista));
+            } else {
+                estado.setEstado(EstadoHTTPEnum.NO_ACEPTABLE);
+                estado.setObjeto(GsonUtil.gson.toJson(new MensajeDTO("No existe información para esta tienda.")));
+            }
+        } else {
+            estado.setEstado(EstadoHTTPEnum.NO_AUTORIZADO);
+            estado.setObjeto(GsonUtil.gson.toJson(new MensajeDTO("Token invalido.")));
+        }
+        return estado;
+    }
+
+    public EstadoDTO actualizaInfoTienda(String tokenDeUsuario, InfoTiendaDTO dto, Connection con) {
+        EstadoDTO estado = new EstadoDTO();
+        String respuesta = "";
+
+        if (LoginDAO.validaToken(tokenDeUsuario, con)) {
+            respuesta = infoTiendaDAO.actualizaInfoTienda(dto, con);
+            if (!respuesta.isEmpty()) {
+                estado.setEstado(EstadoHTTPEnum.OK);
+                estado.setObjeto(GsonUtil.gson.toJson(new MensajeDTO(respuesta)));
+            } else {
+                estado.setEstado(EstadoHTTPEnum.NO_ACEPTABLE);
+                estado.setObjeto(GsonUtil.gson.toJson(new MensajeDTO("Ocurrió un error al realizar la actualización.")));
+            }
+        } else {
+            estado.setEstado(EstadoHTTPEnum.NO_AUTORIZADO);
+            estado.setObjeto(GsonUtil.gson.toJson(new MensajeDTO("Token inválido.")));
+        }
+        return estado;
+    }
+    
+    public String getUrlImagenTienda(Connection connection, String numeroTienda) {
+        return infoTiendaDAO.getUrlImagenTienda(connection, numeroTienda);
+    }
+}

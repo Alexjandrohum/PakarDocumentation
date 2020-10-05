@@ -1,0 +1,168 @@
+package com.grupopakar.grupopakarappws.dao;
+
+import com.grupopakar.grupopakarappws.dto.GpoInfoTiendaDTO;
+import com.grupopakar.grupopakarappws.dto.InfoTiendaDTO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.imageio.ImageIO;
+import mx.com.pakar.util.Factory;
+import mx.com.pakar.util.Util;
+
+/**
+ *
+ * @author rosa.zalas
+ */
+public class InfoTiendaDAO {
+
+    public int buscaTokenUsuario(String tokenUsuario, Connection con) {
+        int respuesta = 0;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "SELECT id_usuario FROM gpa.usuario WITH(NOLOCK) WHERE token_usuario =  ?";
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, tokenUsuario);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                respuesta = rs.getInt("id_usuario");
+            }
+        } catch (SQLException ex) {
+            Util.registraError(ex);
+        } catch (Exception ex) {
+            Util.registraError(ex);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return respuesta;
+    }
+
+    public List<GpoInfoTiendaDTO> getInfoTienda(int idTienda, int idUsuario, Connection con) {
+        List<GpoInfoTiendaDTO> lista = new ArrayList<GpoInfoTiendaDTO>();
+        PreparedStatement ps = null;
+        ResultSet rs1 = null;
+        ResultSet rs2 = null;
+        String sql;
+        try {
+            sql = "SELECT \n"
+                    + "	id_tipo_concepto, nombre_concepto, orden \n"
+                    + "FROM gpa.tipo_concepto \n"
+                    + "WHERE id_modulo = 6 \n"
+                    + "ORDER BY orden ";
+            ps = con.prepareStatement(sql);
+            rs1 = ps.executeQuery();
+            while (rs1.next()) {
+                sql
+                        = "SELECT \n"
+                        + "	ia.id_tienda_informacion_adicional, ic.nombre_concepto, ia.valor_informacion_adicional, ic.editable \n"
+                        + "FROM gpa.tienda_informacion_adicional ia WITH(NOLOCK) \n"
+                        + "INNER JOIN gpa.tienda_informacion_catalogo ic WITH(NOLOCK) ON ia.id_tienda_informacion_catalogo = ic.id_tienda_informacion_catalogo \n"
+                        + "WHERE ia.id_tienda = ? \n"
+                        + "AND ic.id_tipo_concepto = ? ";
+                ps = con.prepareStatement(sql);
+                ps.setInt(1, idTienda);
+                ps.setInt(2, rs1.getInt("id_tipo_concepto"));
+                rs2 = ps.executeQuery();
+                GpoInfoTiendaDTO gpoInfo = new GpoInfoTiendaDTO();
+                List<InfoTiendaDTO> listaInfo = new ArrayList<InfoTiendaDTO>();
+                while (rs2.next()) {
+                    InfoTiendaDTO dto = new InfoTiendaDTO();
+                    dto.setIdInformacionTienda(rs2.getInt("id_tienda_informacion_adicional"));
+                    dto.setNombreConcepto(rs2.getString("nombre_concepto"));
+                    dto.setValorConcepto(rs2.getString("valor_informacion_adicional"));
+                    dto.setEditable(rs2.getBoolean("editable"));
+                    listaInfo.add(dto);
+                }
+                gpoInfo.setNombreGrupoInfoTienda(rs1.getString("nombre_concepto"));
+                gpoInfo.setListaConceptos(listaInfo);
+                if (!gpoInfo.getListaConceptos().isEmpty()) {
+                    lista.add(gpoInfo);
+                }
+            }
+        } catch (SQLException ex) {
+            Util.registraError(ex);
+        } catch (Exception ex) {
+            Util.registraError(ex);
+        } finally {
+            Factory.close(rs1);
+            Factory.close(rs2);
+            Factory.close(ps);
+        }
+        return lista;
+    }
+
+    /**
+     * Actualiza la información de una tienda
+     *
+     * @param dto Objeto de tipo <code>InfoTiendaDTO</code> con la información
+     * que se va a actualizar.
+     * @param con Conexión activa a la base de datos.
+     * @return Objeto tipo <code>String</code> actualizado.
+     */
+    public String actualizaInfoTienda(InfoTiendaDTO dto, Connection con) {
+        String sql
+                = "UPDATE gpa.tienda_informacion_adicional \n"
+                + "SET valor_informacion_adicional = ? \n"
+                + "WHERE id_tienda_informacion_adicional = ? ";
+        PreparedStatement ps = null;
+        boolean resultado = false;
+        try {
+            ps = con.prepareStatement(sql);
+            ps.setString(1, dto.getValorConcepto());
+            ps.setInt(2, dto.getIdInformacionTienda());
+            resultado = ps.executeUpdate() == 1;
+        } catch (SQLException ex) {
+            Util.registraError(ex);
+        } catch (Exception ex) {
+            Util.registraError(ex);
+        } finally {
+            Factory.close(ps);
+        }
+        return resultado ? "La información se almacenó correctamente." : "";
+    }
+
+    public BufferedImage getImagenTienda(Connection connection, String rutaFotoDefault, String numeroTienda) {
+        BufferedImage image = null;
+        String query = 
+                  "SELECT \n"
+                + "	((SELECT ISNULL(valor,'') FROM gpa.propiedad WHERE clave = 'ws_foto_tienda') + CAST(t.numero AS VARCHAR)) + '.jpg' AS url_foto_tienda \n"
+                + "FROM gpa.tienda t WITH(NOLOCK) \n"
+                + "WHERE t.id_tienda = ?";
+        PreparedStatement ps = null;
+        ResultSet r = null;
+
+        try {
+            File f = new File(rutaFotoDefault);
+            if (connection != null) {
+                ps = connection.prepareCall(query);
+                ps.setString(1, numeroTienda);
+                r = ps.executeQuery();
+                if (r.next()) {
+                    Blob foto = r.getBlob("Foto");
+                    if (foto.length() == 0) {
+                        image = ImageIO.read(f);
+                    } else {
+                        image = ImageIO.read(foto.getBinaryStream());
+                    }
+                } else {
+                    image = ImageIO.read(f);
+                }
+            }
+        } catch (SQLException | IOException ex) {
+            Util.registraError(ex);
+        } finally {
+            Factory.close(r);
+            Factory.close(ps);
+        }
+        return image;
+    }
+
+}

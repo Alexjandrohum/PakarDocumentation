@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta property="og:image" content="http://www.pakar.com/shoes_collection.jpg" />
+        <title>SC Pakar - Venta por cat&aacute;logo de calzado, ropa y accesorios</title>
+        <link rel="icon" type="image/png" href="./resources/estilo/favicon.png" />
+        <meta name="viewport" content="width=device-width"/>
+    </h:head>
+    <h:body styleClass="body">
+        <h:outputScript library="js" target="head" name="funcion.js" />
+        <h:outputStylesheet library="css" name="dialogo.css"/>
+        <h:outputStylesheet library="css" name="estilo.css"/>
+
+        <h:form id="formulario" >
+            <p:remoteCommand autoRun="true" actionListener="#{AccesoSocio.validaAcceso}" process="@this" resetValues="true" immediate="true"/>
+            <p:messages id="mensajes" autoUpdate="true" closable="true" showDetail="true" />
+            <!-- Encabezado -->
+            <ui:include src="encabezado.xhtml"/>
+            <!-- Menu principal -->
+            <ui:include src="menu_principal.xhtml"/>
+            <!-- Banner -->
+            <!--<ui:include src="banner.xhtml"/>-->
+
+            <div class="ui-fluid">
+                <p:panel id="contenedorAccesoSocio" styleClass="contenedor" style="border-radius: 0;">
+                    <p:panelGrid columns="4" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: left !important; border: none !important;" 
+                                 columnClasses=" ui-grid-col-2,  ui-grid-col-6,  ui-grid-col-4, ui-grid-col-4">
+
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" style="border: none !important; border: 0px solid !important;">
+                            <div class="ui-g">
+                                <p:graphicImage value="./resources/estilo/socia.png" styleClass="imagen" style="position: relative; top: 50px; right: -70px;" />
+                            </div>
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="¡BIENVENIDO!" styleClass="acceso_titulo" />
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="Tus cat&aacute;logos en internet con" styleClass="acceso_eslogan" />
+                                <p:outputLabel value="los precios que t&uacute; decidas." styleClass="acceso_eslogan" />
+                            </p:panelGrid>
+                            <p:spacer height="5"/>
+                            <p:outputLabel value="CON LOS CAT&Aacute;LOGOS DIGITALES SC PAKAR PODR&Aacute;S REPARTIR A M&Aacute;S CLIENTES" styleClass="acceso_texto" />
+                            <p:outputLabel value="TU PROPIA P&Aacute;GINA WEB CON EL PORCENTAJE DE GANANCIA QUE T&Uacute; DECIDAS." styleClass="acceso_texto" />
+
+                            <iframe width="384" height="216" src="https://www.youtube.com/embed/zcwcqGoDmMQ" frameborder="0"></iframe>                            
+                            <p:outputLabel value="INSTRUCCIONES" styleClass="acceso_instruccion" />
+                            <p:outputLabel value="1. ADQUIERE TU C&Oacute;DIGO DE ACCESO EN LA TIENDA O AF&Iacute;LIATE AQU&Iacute; MISMO." styleClass="acceso_texto" />
+                            <p:outputLabel value="2. ACTIVA EL C&Oacute;DIGO DE TU TARJETA." styleClass="acceso_texto" />
+                            <p:outputLabel value="3. GENERA UNA CONTRASE&Ntilde;A PARA TI Y OTRA PARA TUS CLIENTES." styleClass="acceso_texto" />
+                            <p:outputLabel value="4. MODIFICA EL PORCENTAJE DE GANANCIA." styleClass="acceso_texto" />
+                            <p:outputLabel value="5. ENV&Iacute;A A TUS CLIENTES LA P&Aacute;GINA www.scpakarmx.com/clientes JUNTO CON EL USUARIO Y CONTRASE&Ntilde;A QUE GENERASTE PARA ELLOS." styleClass="acceso_texto" />
+                            <p:outputLabel value="6. ADMINISTRA LOS PEDIDOS QUE HICIERON TUS CLIENTES INGRESANDO TU N&Uacute;MERO DE SOCIO Y CONTRASE&Ntilde;A." styleClass="acceso_texto" />
+                            <p:outputLabel value="7. ENV&Iacute;ANOS TU PEDIDO Y NOSOTROS TE HAREMOS LLEGAR LOS PRODUCTOS." styleClass="acceso_texto" />
+                        </p:panelGrid>
+
+                        <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: center !important;" >
+                            <p:panel styleClass="acceso_encabezado" style="text-align: center;" >
+                                <p:outputLabel value="ACCESO SOCIO DIGITAL WEB" styleClass="acceso_encabezado_texto" />
+                            </p:panel>
+                            <p:panelGrid columns="2" layout="grid" columnClasses=" ui-grid-col-4,ui-grid-col-4" style="text-align: right !important;">
+                                <p:outputLabel value="N&Uacute;MERO DE SOCIO: " styleClass="acceso_texto" />
+                                <p:inputText id="txtInputSocio" onkeypress="buscaCodigo(event, 'formulario:btnAccesoSocio');" value="#{AccesoSocio.idSocio}" immediate="true"
+                                             maxlength="20" styleClass="acceso_input"/>
+
+                                <p:outputLabel value="CONTRASE&Ntilde;A: " styleClass="acceso_texto" />
+                                <p:password id="txtPassWordSocio" onkeypress="buscaCodigo(event, 'formulario:btnAccesoSocio');" value="#{AccesoSocio.password}" immediate="true"
+                                            maxlength="20" styleClass="acceso_input" redisplay="true"/>
+
+                                <p:spacer/>
+                                <p:commandButton id="btnAccesoSocio" value="Ingresar" actionListener="#{AccesoSocio.validaLogin}" 
+                                                 update=":formulario:mensajeAccesoError"
+                                                 styleClass="texto_boton" style="width: 200px;" process="@this, :formulario:txtPassWordSocio, :formulario:txtInputSocio" />
+                                
+                                <p:spacer/>
+                                <p:outputLabel id="mensajeAccesoError" value="#{AccesoSocio.mensajeError}" style="font-size: 10px !important;"
+                                               styleClass="texto_mensaje_error" />
+                            </p:panelGrid>
+                            <p:commandLink oncomplete="PF('dlgPassword').show();" process="@this">
+                                <p:outputLabel value="¿OLVIDASTE TU CONTRASE&Ntilde;A?" styleClass="acceso_texto"/>
+                            </p:commandLink>
+                            <p:spacer width="10" height="10"/>
+                            <p:panel styleClass="acceso_encabezado" style="text-align: center;" >
+                                <p:outputLabel value="ACTIVACI&Oacute;N DE TARJETA CAT&Aacute;LOGO DIGITAL WEB" styleClass="acceso_encabezado_texto" />
+                            </p:panel>
+                            <p:panelGrid columns="2" layout="grid" columnClasses=" ui-grid-col-4,ui-grid-col-12" style="text-align: justify !important;">
+                                <div class="ui-g">
+                                    <p:graphicImage value="./resources/estilo/tarjeta.png" styleClass="imagen" />
+                                </div>
+                                <p:panel style="border: none !important; background-color: #F2F2F2;"  >
+                                    <p:outputLabel value="ACTIVA POR PRIMERA VEZ TU ACCESO AL CAT&Aacute;LOGO DIGITAL WEB. NO OLVIDES REACTIVAR TU ACCESO CADA CAMBIO DE TEMPORADA." styleClass="acceso_texto" />
+                                    <br/>
+                                    <br/>
+                                    <p:commandButton value="Activar" actionListener="#{AccesoSocio.limpiar}" update=":formulario:mensajeAccesoError"
+                                                     oncomplete="PF('dlgActivacion').show();" styleClass="texto_boton" process="@this" />
+                                </p:panel>
+
+
+
+                            </p:panelGrid>
+                        </p:panelGrid>
+
+                        <p:spacer width="200" height="1"/>
+                    </p:panelGrid>
+                </p:panel>
+            </div>
+
+
+            <!-- Dialogos -->
+            <ui:include src="dialogo_contacto.xhtml"/>
+            <ui:include src="dialogo_afiliate.xhtml"/>
+            <ui:include src="dialogo_preguntas.xhtml"/>
+            <ui:include src="dialogo_recupera_password.xhtml"/>
+            <ui:include src="dialogo_activacion.xhtml"/>
+
+            <!-- pie de pagina -->
+            <ui:include src="pie_pagina.xhtml"/>
+        </h:form>
+
+        <!-- Status -->
+        <!-- PRIMEFACES -->
+        <div class="ui-fluid">
+            <p:ajaxStatus styleClass="estatus" style="width:64px; height:64px; position:fixed; right:5px; bottom:5px"> 
+                <f:facet name="start" >
+                    <p:graphicImage width="60px" height="60px" value="./resources/estilo/control/cargando.gif" styleClass="imagen" />
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>  
+            </p:ajaxStatus> 
+        </div>
+    </h:body>
+</html>

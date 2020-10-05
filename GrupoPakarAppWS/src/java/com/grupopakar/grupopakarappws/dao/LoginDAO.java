@@ -1,0 +1,196 @@
+package com.grupopakar.grupopakarappws.dao;
+
+import com.grupopakar.grupopakarappws.dto.ModuloDTO;
+import com.grupopakar.grupopakarappws.dto.UsuarioDTO;
+import com.grupopakar.grupopakarappws.util.Configuracion;
+import com.grupopakar.grupopakarappws.util.Encriptacion;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import mx.com.pakar.dto.UsuarioActiveDirectoryDTO;
+import mx.com.pakar.dto.UsuarioAdDTO;
+import mx.com.pakar.util.Factory;
+import mx.com.pakar.util.Sesion;
+import mx.com.pakar.util.Util;
+
+/**
+ *
+ * @author antonio.ruiz
+ */
+public class LoginDAO {
+
+    public UsuarioDTO getLoginUsuario(String usuario, String password, Connection con) {
+        UsuarioDTO user = null;
+        UsuarioActiveDirectoryDTO userLoged = null;
+        Calendar c = GregorianCalendar.getInstance();
+        try {
+            UsuarioAdDTO u = Sesion.getUsuario(usuario, password, Configuracion.getId(), con);
+            if (u != null) {
+                userLoged = Sesion.getUsuarioActiveDirectory(usuario);
+                List<ModuloDTO> modulo = new ArrayList<>();
+                if (validaNumeroEmpleado(userLoged.getDescription(), con)) {
+                    user = new UsuarioDTO();
+                    user.setNombre(userLoged.getDisplayName());
+                    user.setNumeroControl(userLoged.getDescription());
+                    user.setNotificacionesPendientes(12);
+                    modulo = getModulos(user.getNumeroControl(), con);
+                    if(!modulo.isEmpty()){
+                        user.setTokenDeUsuario(new Encriptacion().getTokenDeUsuario(modulo.get(0).getIdUsuario() + "", usuario, user.getNumeroControl(), c.get(Calendar.YEAR) + "", (c.get(Calendar.WEEK_OF_YEAR) + 1) + ""));
+                        updateInfoUsuario(modulo.get(0).getIdUsuario(), usuario, user.getTokenDeUsuario(), con);
+                    }
+                } else {
+                    String nc = validaNombreUsuarioDominio(usuario, con);
+                    if (!nc.equals("")) {
+                        user = new UsuarioDTO();
+                        user.setNombre(userLoged.getDisplayName());
+                        user.setNumeroControl(nc);
+                        user.setNotificacionesPendientes(12);
+                        modulo = getModulos(user.getNumeroControl(), con);
+                        if(!modulo.isEmpty()){
+                            user.setTokenDeUsuario(new Encriptacion().getTokenDeUsuario(modulo.get(0).getIdUsuario() + "", usuario, user.getNumeroControl(), c.get(Calendar.YEAR) + "", (c.get(Calendar.WEEK_OF_YEAR) + 1) + ""));
+                            updateInfoUsuario(modulo.get(0).getIdUsuario(), usuario, user.getTokenDeUsuario(), con);
+                        }
+                    } else {
+                        u = null;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            Util.registraError(ex);
+        } finally {
+
+        }
+        return user;
+    }
+
+    public List<ModuloDTO> getModulos(String numeroControl, Connection con) {
+        List<ModuloDTO> modulos = new ArrayList<ModuloDTO>();
+        String query = "SELECT u.id_usuario, up.id_perfil, m.id_modulo, m.nombre, ISNULL(m.ruta_img,'') AS icono  "
+                + "FROM aps.modulo m  "
+                + "INNER JOIN aps.perfil_modulo pm ON m.id_modulo = pm.id_modulo  "
+                + "INNER JOIN aps.usuario_perfil up ON pm.id_perfil = up.id_perfil  "
+                + "INNER JOIN aps.usuario u ON up.id_usuario = u.id_usuario  "
+                + "WHERE u.numero_control = ?  "
+                + "ORDER BY m.orden";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, numeroControl);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ModuloDTO m = new ModuloDTO();
+                m.setIdUsuario(rs.getInt("id_usuario"));
+                m.setIdPerfil(rs.getInt("id_perfil"));
+                m.setIdModulo(rs.getInt("id_modulo"));
+                m.setNombreModulo(rs.getString("nombre"));
+                m.setIcono(rs.getString("icono"));
+                modulos.add(m);
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+
+        }
+        return modulos;
+    }
+
+    public boolean updateInfoUsuario(int idUsuario, String usuarioDominio, String token, Connection con) {
+        boolean status = false;
+        String query = "UPDATE aps.usuario  "
+                + "SET usuario_dominio = ?,"
+                + "token_usuario = ?  "
+                + "WHERE id_usuario = ? ";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, usuarioDominio);
+            ps.setString(2, token);
+            ps.setInt(3, idUsuario);
+            status = ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(ps);
+
+        }
+        return status;
+    }
+
+    public static boolean validaToken(String token, Connection con) {
+        boolean status = false;
+        PreparedStatement ps = null;
+        String query = "SELECT token_usuario  "
+                + " FROM aps.usuario WITH(NOLOCK)  "
+                + " WHERE token_usuario = ? ";
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, token);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                status = true;
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return status;
+    }
+
+    public static boolean validaNumeroEmpleado(String numeroEmpleado, Connection con) {
+        boolean status = false;
+        PreparedStatement ps = null;
+        String query = "SELECT numero_control "
+                + " FROM aps.vw_empleado_acceso "
+                + " WHERE numero_control = ? ";
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, numeroEmpleado);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                status = true;
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return status;
+    }
+
+    public static String validaNombreUsuarioDominio(String usuarioDominio, Connection con) {
+        String nc = "";
+        PreparedStatement ps = null;
+        String query = "SELECT numero_control "
+                + " FROM aps.vw_empleado_acceso "
+                + " WHERE usuario = ? ";
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, usuarioDominio);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                nc = rs.getString("numero_control");
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return nc;
+    }
+
+}

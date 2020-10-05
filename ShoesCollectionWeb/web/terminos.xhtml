@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta property="og:image" content="http://www.pakar.com/shoes_collection.jpg" />
+        <title>SC Pakar - Venta por cat&aacute;logo de calzado, ropa y accesorios</title>
+        <link rel="icon" type="image/png" href="./resources/estilo/favicon.png" />
+        <meta name="viewport" content="width=device-width"/>
+    </h:head>
+    <h:body styleClass="body_terminos" >
+        <h:outputStylesheet library="css" name="dialogo.css"/>
+        <h:outputStylesheet library="css" name="estilo.css"/>
+
+        <h:form id="formulario" >
+            <p:messages id="mensajes" autoUpdate="true" closable="true" showDetail="true" />
+            <!-- Encabezado -->
+            <ui:include src="encabezado.xhtml"/>
+            <!-- Menu principal -->
+            <ui:include src="menuPrincipal.xhtml"/>
+            <!-- Banner -->
+            <ui:include src="banner.xhtml"/>
+            <div class="ui-fluid">
+                <!-- AVISO DE PRIVACIDAD -->
+                <p:panel styleClass="panel_terminos" style=" overflow: auto;">
+                    <p:outputLabel value="AVISO DE PRIVACIDAD PARA LA PROTECCIÓN DE DATOS PERSONALES." styleClass="terminos_titulo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="En términos de lo previsto en la Ley Federal de Protección de Datos 
+                                   Personales en Posesión de los Particulares (en lo sucesivo denominada como 
+                                   “la Ley”), Shoes Collection Pakar marca operada por las empresas Calzados Álava,
+                                   S.A. de C.V., Calzados Aldecoa, S.A. de C.V., Calzados Amachi, S.A. de C.V., 
+                                   Calzados Aniz, S.A. de C.V., Calzados Aparicio, S.A. de C.V.,  Calzados Berro, 
+                                   S.A. de C.V., Calzados Campanas, S.A. de C.V., Calzados Carcastillo, 
+                                   S.A. de C.V., Archea, S.A. de C.V., Calzados Cenoz, S.A. de C.V., 
+                                   Calzados Cholula, S.A. de C.V., Círculo Pakar, S.A. de C.V., Calzados Elbete, 
+                                   S.A. de C.V., Calzados Galíndez, S.A. de C.V., Calzados Huarte, S.A. de C.V., 
+                                   Ikusi, S.A.P.I., Calzados Iruña, S.A. de C.V., Iturri, S.A. de C.V., 
+                                   Calzados Izkoa, S.A. de C.V., Calzados Mayora, S.A. de C.V., 
+                                   Calzados Mironi, S.A. de C.V., Calzados Moniker, S.A. de C.V., 
+                                   Calzados Navarra, S.A. de .C.V, Calzados Nieves, S.A. de C.V., 
+                                   Calzados Noain, S.A. de C.V., Calzados Olari, S.A. de C.V., Calzados Oronoz, 
+                                   S.A. de C.V., Calzados Osasuna S.A. de C.V., Calzados Pachi, S.A. de .C.V., 
+                                   Calzados Pakar, S.A. de C.V., Calzados Pamplona, S.A. de C.V., Calzados Real, 
+                                   S.A. de C.V., Realmente más, S. de R.L. de C.V.,  Calzados San Blas, 
+                                   S.A. de C.V., Calzados Serrat, S.A. de C.V., Calzados Unzu, S.A. de C.V., 
+                                   Calzados Ciga, S.A. de C.V., Calzados Xarat, S.A. de C.V.,  Servicios Empresariales y Contractuales, S.A. de C.V., 
+                                   Administradora Rioja, S.A. de .C.V., Calzados San Sebastián, S.A. de C.V., 
+                                   Calzados Paroni, S.A. de C.V. establece el presente Aviso de Privacidad de 
+                                   conformidad con lo siguiente:" styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="Términos y Condiciones" styleClass="terminos_subtitulo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="1. El presente Aviso de Privacidad tiene por objeto la protección de los datos personales de los clientes,  personal, directivos, mediante su tratamiento legítimo, controlado e informado, a efecto de garantizar su privacidad, así como tu derecho a la autodeterminación informativa. "  styleClass="terminos_parrafo"  />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="2. Dato Personal es cualquier información concerniente a una persona física identificada o identificable; el responsable de recabar los datos personales es el área de atención a Clientes (afiliaciones, renovaciones de membrecías); y el área de recursos humanos (para personal, directivos). "  styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="3. El domicilio de la Shoes Collection Pakar y del área responsable es el mismo que tiene registrada cada empresa ante el R.F.C. " styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="4. Al proporcionar tus Datos Personales por escrito, a través de una solicitud, formato en papel, formato digital, correo electrónico o cualquier otro documento, aceptas y autorizas a la Shoes Collection Pakar y sus empresas operadoras ya mencionadas a operar y tratar de forma automatizada tus datos personales e información suministrados, los cuales formarán parte de nuestra base de datos con la finalidad de usarlos, en forma enunciativa, más no limitativa, para: identificarte, ubicarte, comunicarte, contactarte, enviarte información y/o bienes, así como para enviarlos y/o transferirlos a terceros, dentro y fuera del territorio nacional, por cualquier medio que permita la ley para cumplir con nuestros fines sociales. 
+                                   Mediante la aceptación y autorización para el tratamiento de tus datos personales en los términos antes señalados, nos facultas expresamente a transferirlos a autoridades de cualquier nivel (Federales, Estatales, Municipales), organismos públicos y privados, diversas empresas y/o personas físicas, dentro y fuera de México, con el propósito de certificar tus posibilidades de compra, así como para participar en sus procesos de selección de personal y nos autorizas a poder emitir documentación, oficial o no, a tus representantes legales y familiares o parientes. " styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="5. La temporalidad del manejo de tus Datos Personales será indefinida a partir de la fecha en que nos los proporciones, pudiendo oponerte al manejo de los mismos en cualquier momento que lo consideres oportuno, con las limitaciones de Ley; en caso de que tu solicitud de oposición sea procedente, Shoes Collection Pakar dejará de manejar tus Datos Personales sin ninguna responsabilidad de nuestra parte." styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="6. El área de Shoes Collection Pakar responsable del tratamiento de tus datos personales, está obligada a cumplir con los principios de licitud, consentimiento, información, calidad, finalidad, lealtad, proporcionalidad y responsabilidad tutelados en la Ley; por tal motivo con fundamento en los artículos 13 y 14 de la Ley, Shoes Collection Pakar se compromete a guardar estricta confidencialidad de tus datos personales, así como a mantener las medidas de seguridad administrativas, técnicas y físicas que permitan protegerlos contra cualquier daño, pérdida, alteración, acceso o tratamiento no autorizado. " styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="7. En términos de lo establecido por el artículo 22 de la Ley, tienes derecho en cualquier momento a ejercer tus derechos de acceso, rectificación, cancelación y oposición al tratamiento de tus datos personales, mediante la solicitud vía correo electrónico dirigido a " styleClass="terminos_parrafo" />
+                    <br/>
+                    <p:link href="mailto:contabilidad.nav@grupopakar.com.mx" value="contabilidad.nav@grupopakar.com.mx" target="_blank" styleClass="terminos_parrafo"/>
+                    <p:outputLabel value=", o por escrito en el domicilio oficial de cada Shoes Collection Pakar en la República Mexicana, solicitud que debe contener los requisitos que marca la Ley." styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="8. Shoes Collection Pakar ocasionalmente modificará y corregirá este Aviso de Privacidad, por lo tanto te pedimos que revises este aviso regularmente en la página de internet que corresponda, o en " styleClass="terminos_parrafo"/>
+                    <p:link href="http://www.pakar.com" target="_blank" value="www.pakar.com" styleClass="terminos_parrafo"/>
+                    <p:outputLabel value=" y en " styleClass="terminos_parrafo"/>
+                    <p:link href="http://www.scpakarmx.com" target="_blank" value="www.scpakarmx.com" styleClass="terminos_parrafo"/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="9. Shoes Collection Pakar protegerá tus Datos Personales en los términos de la Ley y te comunicará los elementos contenidos en las fracciones del artículo 16 de la Ley. " styleClass="terminos_parrafo" />
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="10. Aportar tus datos personales, es un hecho que presume tu total aceptación al contenido del presente Aviso de Privacidad. No obstante, te pedimos suscribir de conformidad el presente documento, el que formará parte de tu expediente como Cliente o Personal integrante Shoes Collection Pakar." styleClass="terminos_parrafo" />
+                    <br/>  
+                    <br/>
+                </p:panel>
+            </div>
+
+            <!-- Dialogos -->
+            <ui:include src="dialogo_contacto.xhtml"/>
+            <ui:include src="dialogo_afiliate.xhtml"/>
+            <ui:include src="dialogo_preguntas.xhtml"/>
+            <ui:include src="dialogo_producto.xhtml"/>
+
+            <!-- pie de pagina -->
+            <ui:include src="pie_pagina.xhtml"/>
+        </h:form>
+
+        <!-- Status -->
+        <!-- PRIMEFACES -->
+        <div class="ui-fluid">
+            <p:ajaxStatus styleClass="estatus" style="width:64px; height:64px; position:fixed; right:5px; bottom:5px"> 
+                <f:facet name="start" >
+                    <p:graphicImage width="60px" height="60px" value="./resources/estilo/control/cargando.gif" styleClass="imagen" />
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>  
+            </p:ajaxStatus> 
+        </div>
+    </h:body>
+</html>

@@ -1,0 +1,167 @@
+@font-face {
+    font-family: 'FuenteIE';
+    src: url("#{resource['css:css/MyriadWebPro.eot']}");
+}
+
+@font-face {
+    font-family: 'Fuente';
+    src: url("#{resource['css:css/MyriadWebPro.ttf']}");
+}
+
+@font-face {
+    font-family: 'FuenteBoldIE';
+    src: url("#{resource['css:css/MyriadWebPro-Bold.eot']}");
+}
+
+@font-face {
+    font-family: 'FuenteBold';
+    src: url("#{resource['css:css/MyriadWebPro-Bold.ttf']}");
+}
+
+
+.dialogo_body{
+    text-align: center; 
+    background-color: #4D4F53;
+}
+
+.dialogo_body_producto{
+    text-align: center; 
+    background-color: white;
+}
+
+.texto_etiqueta{
+    font-size: 11px !important; 
+    text-align: right;
+    color: white; 
+    font-family: 'Fuente', 'FuenteIE', sans-serif; 
+}
+
+.texto_entrada{
+    font-family: 'Fuente', 'FuenteIE', sans-serif;
+    width: 250px !important;
+    height: 20px !important;
+    border: 0px solid;
+    text-align: left;
+    color: #4D4F53;
+    font-size: 10px !important;
+}
+
+.texto_entrada_area{
+    font-family: 'Fuente', 'FuenteIE', sans-serif; 
+    color: #4D4F53; 
+    font-size: 10px !important; 
+    width: 250px !important; 
+    height: 100px;
+}
+
+.texto_mensaje{
+    padding-left: 50px; 
+    font-size: 10px !important; 
+    color: red !important;
+    background: none;
+    border: 0px solid;
+    font-family: 'Fuente', 'FuenteIE', sans-serif;
+}
+
+.texto_mensaje_error{
+    font-size: 12px !important; 
+    font-weight: bold !important;
+    color: red !important;
+    text-shadow: none !important;
+    /*background: none;
+    border: 0px solid;*/
+    font-family: 'Fuente', 'FuenteIE', sans-serif;
+}
+
+.texto_mensaje_exito{
+    font-size: 12px !important; 
+    font-weight: bold !important;
+    color: #BED600 !important;
+    text-shadow: none !important;
+    /*background: none;
+    border: 0px solid;*/
+    font-family: 'Fuente', 'FuenteIE', sans-serif;
+}
+
+.texto_boton {
+    font-family: 'FuenteBold', 'FuenteBoldIE', sans-serif;
+    font-size: 13px !important;
+    width: 100px; 
+    height: 30px;
+}
+
+.imagen {
+    border: 0px solid;
+    margin: 0 auto;    
+}
+
+.ui-widget-header {
+    background: none;
+    /*background-color: #4D4F53;*/
+    background-color: #002390;
+}
+
+.panel_titulo_paso{
+    text-align: center; 
+    background-color: #002395;
+    border: 0px solid;
+}
+
+.texto_etiqueta_negrita{
+    font-size: 11px !important; 
+    font-weight: bold;
+    text-align: center !important;
+    color: white; 
+    font-family: 'Fuente', 'FuenteIE', sans-serif; 
+}
+
+.texto_select_menu{
+    width: 250px !important;
+    font-size: 10px !important;
+    font-family: 'Fuente', 'FuenteIE', sans-serif;
+}
+
+.ui-selectonemenu-item{
+    font-size: 10px !important;
+    font-family: 'Fuente', 'FuenteIE', sans-serif;
+}
+
+.ui-selectonemenu-list-item{
+    font-size: 10px !important;
+    font-family: 'Fuente', 'FuenteIE', sans-serif;
+}
+
+.texto_pregunta{
+    font-size: 12px !important; 
+    color: white !important; 
+    font-family: 'Fuente', 'FuenteIE', sans-serif; 
+}
+
+.texto_respuesta{
+    font-size: 11px !important; 
+    color: white; 
+    font-family: 'Fuente', 'FuenteIE', sans-serif; 
+}
+
+.texto_titulo{
+    font-size: 14px !important; 
+    color: red; 
+    font-family: 'Fuente', 'FuenteIE', sans-serif; 
+}
+
+.preguntas {
+    /*width: 800px;
+    height: 609px;*/
+    overflow: hidden;
+    background: none;
+    border: 0px solid;
+    padding: 5px;
+    margin: 0 auto;
+    text-align: justify;
+}
+
+
+
+.link {
+    text-decoration: none;
+}

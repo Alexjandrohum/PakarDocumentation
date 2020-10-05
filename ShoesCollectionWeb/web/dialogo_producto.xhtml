@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <div class="ui-fluid">
+        <p:dialog id="dlgProducto" widgetVar="dlgProducto" responsive="true" resizable="false" position="center middle" showHeader="true"
+                  modal="true"  closeOnEscape="true" styleClass="dialogo_body_producto" fitViewport="true" focus=":formulario:txtFocusDlgProducto"> 
+            <p:ajax event="close" update="formulario:panelDlgProducto" 
+                    resetValues="true" listener="#{Catalogo.cierraDialogoProducto}"/>
+
+            <p:scrollPanel id="scrollProductoPop" mode="native" style="width: 100%; height: 500px;" >
+                <p:inputText id="txtFocusDlgProducto" rendered="false"/>
+                <p:panelGrid id="panelDlgProducto" columns="2" layout="grid"  styleClass="ui-panelgrid-blank">
+                    <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" style="text-align: center;">
+                        <center>
+                            <div class="ui-g" >
+                                <p:graphicImage value="#{Catalogo.producto.url}" title="#{Catalogo.producto.descripcionNombreMarca}"
+                                                style="width:100%" styleClass="imagen"/>
+                            </div>
+                        </center>
+                        <p:separator/>
+                        <p:outputLabel value="#{Catalogo.producto.material}" styleClass="texto_producto" style="font-size: 18px;"/>
+                    </p:panelGrid>
+                    <p:panelGrid columns="1" styleClass="ui-panelgrid-blank" style="text-align: center;">
+                        <p:panelGrid columns="2" styleClass="ui-panelgrid-blank" style="text-align: left;">
+                            <p:outputLabel value="Marca:" styleClass="texto_producto" style="font-size: 18px;"/>
+                            <p:outputLabel value="#{Catalogo.producto.nombreMarca} " styleClass="texto_producto" style="font-size: 18px;"/>
+
+                            <p:outputLabel value="Modelo:" styleClass="texto_producto" style="font-size: 18px;"/>
+                            <p:outputLabel value="#{Catalogo.producto.modelo} " styleClass="texto_producto" style="font-size: 18px;"/>
+
+                            <p:outputLabel value="Color:" styleClass="texto_producto" style="font-size: 18px;"/>
+                            <p:outputLabel value="#{Catalogo.producto.color} " styleClass="texto_producto" style="font-size: 18px;"/>
+
+                            <p:outputLabel value="C&oacute;digo:" styleClass="texto_producto" style="font-size: 18px;"/>
+                            <p:outputLabel value="#{Catalogo.producto.codigoVisible} " styleClass="texto_producto" style="font-size: 18px;"/>
+
+                            <p:spacer width="10"/>
+                            <p:panel styleClass="ui-panelgrid-blank" style="text-align: left; padding: 0px; margin: 0 auto; border: 0px;" rendered="#{MenuPrincipal.visible}">
+                                <p:selectOneRadio id="radioCorridas" columns="3" layout="pageDirection" value="#{Catalogo.corrida}"
+                                                  style="font-size: 12px;">
+                                    <f:selectItems value="#{Catalogo.corridas}" var="crs" itemLabel="#{crs.corrida}" itemValue="#{crs.llave}"/>
+                                    <p:ajax update=":formulario:txtPrecioProducto :formulario:comboTallas" listener="#{Catalogo.cambiaCorridaProducto}" process="@this" />
+                                </p:selectOneRadio>
+                            </p:panel>
+
+                            <p:spacer height="10" rendered="#{MenuPrincipal.visible}"/>
+                            <p:spacer height="10" rendered="#{MenuPrincipal.visible}"/>
+
+                            <p:outputLabel value="Talla:" styleClass="texto_producto" style="font-size: 18px;" rendered="#{MenuPrincipal.visible}"/>
+                            <p:selectOneMenu id="comboTallas" value="#{Catalogo.talla}" syncTooltip="true" styleClass="texto_select_menu" 
+                                             rendered="#{MenuPrincipal.visible}"
+                                             style="width: 120px !important; text-align: center; font-size: 12px;">
+                                <f:selectItem itemLabel="Elige una talla" itemValue="" />
+                                <f:selectItems value="#{Catalogo.tallas}" var="t" itemLabel="#{t.tallaVisible}" itemValue="#{t.talla}" />
+                                <p:ajax update=":formulario:txtPrecioProducto :formulario:comboTallas" process="@this" listener="#{Catalogo.cambiaTalla}" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel value="Cantidad:" styleClass="texto_producto" style="font-size: 18px;" rendered="#{MenuPrincipal.visible}"/>
+                            <p:spinner id="spinCantidad" value="#{Catalogo.producto.cantidad}" min="0" max="20" 
+                                       rendered="#{MenuPrincipal.visible}"
+                                       style="text-align: center; width: 120px; font-size: 12px; text-align: center;"/>
+
+                            <p:outputLabel value="Precio:" styleClass="texto_producto" style="font-size: 18px;" rendered="#{MenuPrincipal.visible}"/>
+                            <p:outputLabel id="txtPrecioProducto" value="#{Catalogo.producto.precio}" styleClass="texto_producto" 
+                                           rendered="#{MenuPrincipal.visible}"
+                                           style="font-size: 18px;">
+                                <f:convertNumber type="currency" currencySymbol="$" maxFractionDigits="2" />
+                            </p:outputLabel>
+
+                        </p:panelGrid>
+                        <p:separator rendered="#{MenuPrincipal.visible}"/>
+                        <p:commandButton value="Agregar" rendered="#{MenuPrincipal.visible}"
+                                         process="@this"
+                                         oncomplete="PF('dlgProducto').hide();" styleClass="texto_boton"/>
+
+                    </p:panelGrid>
+                </p:panelGrid>
+            </p:scrollPanel>
+        </p:dialog>
+    </div>
+
+</html>

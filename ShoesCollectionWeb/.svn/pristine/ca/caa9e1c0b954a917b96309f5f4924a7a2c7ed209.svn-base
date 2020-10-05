@@ -1,0 +1,13 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui">
+    <div class="ui-fluid">
+        <p:panel id="encabezado"  styleClass="encabezado" style="border-radius: 0;" >
+            <p:link outcome="catalogo" style="position: absolute; top: 20px; left: 20px;" >
+                <div class="ui-g">
+                    <p:graphicImage value="./resources/estilo/logo_mini.png" styleClass="imagen" />
+                </div>
+            </p:link>
+        </p:panel>
+    </div>
+</html>

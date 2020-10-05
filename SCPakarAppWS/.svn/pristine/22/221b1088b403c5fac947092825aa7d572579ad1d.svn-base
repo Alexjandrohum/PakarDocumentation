@@ -1,0 +1,61 @@
+package com.scpakar.scpakarappws.dto;
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author pablo.martinez
+ */
+public enum Estatus implements Serializable {
+
+    NUEVO(1, "Nuevo"),
+    PEDIDO(2, "Pedido"),
+    SURTIDO(3, "Surtido"),
+    ENVIADO(4, "Enviado"),
+    RECIBIDO(5, "Recibido"),
+    REVISADO(6, "Revisado"),
+    VENDIDO(7, "Vendido"),
+    DOMICILIO(8, "Domicilio"),
+    ABANDONADO(9, "Abandonado"),
+    NEGADO_INVENTARIO(10, "Negado inventario"),
+    NEGADO_OPERACION(11, "Negado operación"),
+    CANCELADO(12, "Cancelado"),
+    CANCELADO_OPERACION(13, "Cancelado Operación"),
+    OPCION(14, "Opcion"), 
+    
+    ABIERTA_PAQUETERIA(201,"Abierta P"),
+    ENVIADA_PAQUETERIA(202,"Enviada P"),
+    CANCELADA_PAQUETERIA(203,"Cancelada P"),
+    
+    NUEVA_LIBERACION(210, "Nueva"),
+    CALIDAD_LIBERACION(211, "Calidad"),
+    PREPARADA_LIBERACION(212, "Preparada"),
+    PAGADA_LIBERACION(213, "Pagada"),
+    CONCILIADA_LIBERACION(214, "Conciliada"),
+    COBRADA_LIBERACION(215, "Cobrada");
+
+    private final int idEstatus;
+    private final String nombre;
+
+    private Estatus(int idEstatus, String nombre) {
+        this.idEstatus = idEstatus;
+        this.nombre = nombre;
+    }
+
+    public int getIdEstatus() {
+        return idEstatus;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+    
+    public static Estatus getEstatus(int idEstatus) {
+        for (Estatus e : Estatus.values()) {
+            if (e.getIdEstatus() == idEstatus) {
+                return e;
+            }
+        }
+        return NUEVO;
+    }
+}

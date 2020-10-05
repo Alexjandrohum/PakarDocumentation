@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <div class="ui-fluid">
+        <p:menubar id="menuPrincipal" styleClass="menu_principal" style="border-radius: 0;">
+            <p:menuitem value="BIENVENIDO: #{MenuPrincipal.socio.nombre}"  disabled="true" 
+                        styleClass="menu_nombre_socio" rendered="#{MenuPrincipal.visible}" />
+            <f:facet name="options">
+                <p:menubar id="acceso" styleClass="menu_acceso">
+                    <p:menuitem value="Clientes" url="socio_cliente.jsf" rendered="#{MenuPrincipal.visible}" process="@this"/>
+                    <p:menuitem value="Configuraci&oacute;n" url="socio_configuracion.jsf"  rendered="#{MenuPrincipal.visible}" process="@this"/>
+                    <p:menuitem value="Afiliate" onsuccess="PF('dlgAfiliacion').show();" rendered="#{MenuPrincipal.visible eq false}" process="@this"/>
+                    <p:submenu label="Acceso" rendered="#{MenuPrincipal.visible eq false}">
+                        <p:menuitem value="Socio" url="acceso_socio.jsf" process="@this"/>
+                        <p:menuitem value="Cliente" url="acceso_cliente.jsf" process="@this"/>
+                    </p:submenu>
+                    <p:menuitem value="Salir" actionListener="#{MenuPrincipal.salir}" rendered="#{MenuPrincipal.visible}" 
+                                update=":formulario:menuPrincipal" process="@this"/>
+                    <p:submenu label="Ayuda">
+                        <p:menuitem value="Cont&aacute;ctanos" onsuccess="PF('dlgContacto').show();" process="@this"/>
+                        <p:menuitem value="Soporte" target="_blank" url="http://scpakarmx.com/chat/client.php?locale=sp" process="@this"/>
+                        <p:menuitem value="Preguntas frecuentes" onsuccess="PF('dlgPreguntas').show();" process="@this"/>
+                    </p:submenu>
+                </p:menubar>
+            </f:facet>
+        </p:menubar>
+    </div>
+</html>

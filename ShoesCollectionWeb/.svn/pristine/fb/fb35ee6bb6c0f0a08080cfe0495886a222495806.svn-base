@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui">
+
+    <div class="ui-fluid">
+        <p:dialog id="dlgPreguntas" widgetVar="dlgPreguntas" responsive="true" resizable="false" position="center middle" showHeader="true"
+                  modal="true"  closeOnEscape="true" styleClass="dialogo_body" fitViewport="true" > 
+
+            <p:panelGrid id="panelPreguntas" columns="1" layout="grid"  styleClass="ui-panelgrid-blank">
+                <p:panel styleClass="preguntas" style=" overflow: auto;" >
+                    <p:outputLabel value="PREGUNTAS FRECUENTES" styleClass="texto_etiqueta_negrita" style="font-size: 14px;" />
+                    <br/>
+                    <br/>
+
+                    <p:outputLabel value="1. ¿QU&Eacute; ES UN CAT&Aacute;LOGO IMPRESO SC PAKAR?"  styleClass="texto_etiqueta_negrita"  /> <br/>
+                    <p:outputLabel value="ES UN MUESTRARIO DE CALZADO, ROPA Y ACCESORIOS DIVIDIDO PARA ESTA TEMPORADA EN: #{Pregunta.datos.listaCatalogos}.
+                                   LOS CAT&Aacute;LOGOS CONTIENEN LAS IM&Aacute;GENES E INFORMACI&Oacute;N DEL PRODUCTO 
+                                   (SIN PRECIOS) COMO MARCA, MODELO, COLOR, TALLA Y C&Oacute;DIGO &Uacute;NICO." 
+                                   styleClass="texto_etiqueta" /> <br/>                    
+                    <br/>
+                    <br/>                    
+                    <p:outputLabel value="2. ¿QU&Eacute; ES UNA LISTA DE PRECIOS SC PAKAR?" styleClass="texto_etiqueta_negrita"  /> <br/>
+                    <p:outputLabel value="ES UNA RELACIÓN QUE TIENE COMO PROPÓSITO DAR A CONOCER A NUESTROS SOCIOS LOS PRECIOS CLAVE DE LOS PRODUCTOS QUE DESEA ADQUIRIR. ADEMÁS, EL LISTADO SUGIERE PRECIOS DE VENTA EN UN PRIMER Y SEGUNDO PAGO." styleClass="texto_etiqueta" /> <br/>
+                    <br/>
+                    <br/>                    
+                    <p:outputLabel value="3. ¿QU&Eacute; SON LOS CAT&Aacute;LOGOS DIGITALES SC PAKAR?"  styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="ES EL MISMO MUESTRARIO DE NUESTROS CATÁLOGOS IMPRESOS PERO ADAPTADOS A UNA RESOLUCIÓN PARA PANTALLA CON CARACTERÍSTICAS SIMILARES E IMPORTANTES BENEFICIOS. CONTAMOS CON UNA VARIANTE CATÁLOGO DIGITAL WEB:" styleClass="texto_etiqueta" /> <br/>
+                    <br/>
+                    <p:outputLabel value="CAT&Aacute;LOGO DIGITAL WEB: " styleClass="texto_etiqueta_negrita" />
+                    <p:outputLabel styleClass="texto_etiqueta" 
+                                   value="ES UNA HERRAMIENTA DISEÑADA PARA AMBIENTE WEB LA CUAL SE ACTIVA COMPRANDO EN LA TIENDA UNA 
+                                   TARJETA DE ACCESO O AFILI&Aacute;NDOSE EN LA PÁGINA PRINCIPAL "/>
+                    <p:link href="http://www.scpakar.com" value="WWW.SCPAKAR.COM" target="_blank" styleClass="texto_etiqueta_negrita" style="color: white; text-decoration: underline"/>
+                    <p:outputLabel value=" (SI A&Uacute;N NO ERES SOCIO). UNA VEZ QUE ACTIVASTE LA TARJETA PODR&Aacute;S COMPARTIR A 
+                                   TUS CLIENTES TU PROPIA PÁGINA WEB. DENTRO DE ÉSTA SE MOSTRARÁN LOS CATÁLOGOS CON LOS PRECIOS QUE 
+                                   TÚ DECIDAS Y TUS CLIENTES PODRÁN HACERTE PEDIDOS MEDIANTE CORREO ELECTRÓNICO, 
+                                   NOSOTROS TE SURTIREMOS LA MERCANCÍA." styleClass="texto_etiqueta" /> <br/>
+                    <br/>
+                    <br/>                    
+                    <p:outputLabel  value="4. ¿CU&Aacute;LES SON LOS BENEFICIOS DE SER UN SOCIO SC PAKAR?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel  value="ESTOS SON ALGUNOS DE LOS BENEFICIOS DE SER UN SOCIO SC PAKAR:" styleClass="texto_etiqueta" /> <br/>
+                    <p:outputLabel value="PRECIO: " styleClass="texto_etiqueta_negrita" /><p:outputLabel  value="CON NUESTROS CATÁLOGOS PUEDES INICIAR TU PROPIO NEGOCIO, UNA VEZ QUE TE AFÍLIAS, DESDE EL PRIMER PAR QUE COMPRES OBTIENES PRECIO DE MAYOREO Y TÚ ELIGES EL PRECIO DE VENTA PARA TUS CLIENTES." styleClass="texto_etiqueta" /> <br/>
+                    <p:outputLabel value="CALIDAD: " styleClass="texto_etiqueta_negrita" /><p:outputLabel  value="NUESTRAS MARCAS, NACIONALES E INTERNACIONALES, CUENTAN CON LA MEJOR MATERIA PRIMA Y MANO DE OBRA QUE ASEGURA LA MEJOR CALIDAD DE NUESTROS PRODUCTOS." styleClass="texto_etiqueta" /> <br/>
+                    <p:outputLabel value="VARIEDAD: " styleClass="texto_etiqueta_negrita" /><p:outputLabel  value="TENEMOS MÁS DE 6000 PRODUCTOS DE CALZADO, ROPA Y ACCESORIOS PARA TODA LA FAMILIA Y 200 MARCAS RECONOCIDAS INTERNACIONALMENTE." styleClass="texto_etiqueta" /> <br/>
+                    <br/>
+                    <br/>                                        
+                    <p:outputLabel value="5. ¿CUÁLES SON LAS OPCIONES Y COSTOS PARA AFILIARME A SC PAKAR?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="COMPRA EN LA TIENDA 1 JUEGO DE #{Pregunta.datos.noCatalogos} CATÁLOGOS IMPRESOS POR #{Pregunta.datos.costoJuego} MN" styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="COMPRA 1 ACCESO AL CATÁLOGO DIGITAL WEB EN LA TIENDA POR #{Pregunta.datos.cdwAcceso} MN" styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="AFÍLIATE EN LÍNEA DESDE LA PÁGINA WEB POR #{Pregunta.datos.cdwAfiliacion} MN" styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="AFÍLIATE COMPRANDO DOS CATÁLOGOS POR #{Pregunta.datos.afiliacionMin} MN" styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>                    
+                    <p:outputLabel  value="6. ¿CÓMO ME AFÍLIO A SC PAKAR POR INTERNET?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="REGISTRA TUS DATOS EN EL BOTÓN &ldquo;AFÍLIATE&rdquo; UBICADO EN LA PÁGINA PRINCIPAL Y CONTESTA UNAS SIMPLES PREGUNTAS." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="SI LLENASTE TODOS LOS DATOS DEL FORMULARIO, TE ENVIAREMOS UN CORREO ELECTRÓNICO CON LOS DATOS BANCARIOS PARA QUE REALICES EL PAGO #{Pregunta.datos.cdwAfiliacion} MN EN VENTANILLA O TRANSFERENCIA ELECTRÓNICA Y UNA LIGA PARA CONTINUAR CON EL REGISTRO." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="UNA VEZ QUE HAYAS REALIZADO TU PAGO, DALE CLICK EN LA LIGA QUE TE ENVIAMOS PARA REGISTRAR LA INFORMACIÓN QUE TE PROPORCIONÓ EL BANCO Y ESPERA UN CORREO NUESTRO PARA ACTIVAR Y PERSONALIZAR TUS DATOS." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="¡YA ERES SOCIO DIGITAL SC PAKAR!. EN TU CORREO DE BIENVENIDA VENDRÁ ANOTADO TU NÚMERO DE SOCIO Y UNA CONTRASEÑA &ldquo;TEMPORAL&rdquo;, INGRESA ESTOS DATOS EN ACCESO A SOCIOS Y PERSONALIZA TUS DATOS." styleClass="texto_etiqueta" /><br/>                                       
+                    <br/>
+                    <br/>                                            
+                    <p:outputLabel  value="7. ¿CÓMO PUEDO ADQUIRIR LOS CATÁLOGOS FÍSICAMENTE?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel  value="ES MUY FÁCIL SIMPLEMENTE TIENES QUE SOLICITARLOS EN LA TIENDA O POR CORREO ELECTRÓNICO 
+                                    COMO OTRO PRODUCTO MÁS CON UN COSTO DE #{Pregunta.datos.costoJuego} MN POR #{Pregunta.datos.noCatalogos} CATÁLOGOS O #{Pregunta.datos.costoUnitario} C/U (COMPRA MÍNIMA 
+                                    DE 2 CATÁLOGOS)." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>                   
+                    <p:outputLabel  value="8. ¿CU&Aacute;L ES LA VIGENCIA DE LOS CATÁLOGOS?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="TENEMOS DOS TEMPORADAS CADA AÑO: PRIMAVERA-VERANO (FEBRERO) Y OTOÑO-INVIERNO (AGOSTO). LA VIGENCIA DE NUESTROS CATÁLOGOS, DIGITALES E IMPRESOS, ES POR 6 MESES, EXCEPTO IMPORTADOS Q2 Y Q4 (3 MESES APROXIMADAMENTE)." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="9. ¿EXISTEN MODIFICACIONES A LOS PRECIOS?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="SÍ, PARA LOS CATÁLOGOS IMPRESOS PUBLICAMOS UN LISTADO LLAMADO " styleClass="texto_etiqueta"/>
+                    <p:outputLabel value="&ldquo;AVISO DE CORRECCIONES&rdquo;"  styleClass="texto_etiqueta" style="font-weight:bold;"/>
+                    <p:outputLabel value=", ESTA LISTA INCLUYE CAMBIOS EN TALLA, PRECIO Y CANCELADOS POR NUESTROS PROVEEDORES." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="PARA NUESTROS SOCIOS DIGITALES WEB, LOS CAMBIOS SON REFLEJADOS DE MANERA AUTOMÁTICA." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="10. ¿CU&Aacute;NTOS PRODUCTOS PUEDO COMPRAR EN SC PAKAR?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="NO HAY LÍMITE, SI ERES SOCIO SC PAKAR PUEDES ADQUIRIR DESDE UN PAR A PRECIO DE MAYOREO, O LA CANTIDAD QUE DESEES, SIEMPRE Y CUANDO SE TENGA EN EXISTENCIA." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="11. ¿CU&Aacute;NTO TIEMPO TARDA EN LLEGAR MI MERCANCÍA?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="SI REALIZASTE TU PEDIDO DENTRO DE LA TIENDA SC PAKAR Y CONTAMOS CON LA MERCANCÍA LA ENTREGA ES INMEDIATA." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="SI TU PEDIDO FUE POR INTERNET, ESPERA LA CONFIRMACIÓN DE EXISTENCIA DE TUS PRODUCTOS, UNA VEZ CONFIRMADO, 
+                                   LA ENTREGA PUEDE SER EN LA TIENDA O EN EL CENTRO DE ATENCIÓN SC PAKAR MÁS CERCANO, EL TIEMPO DE ENTREGA DEPENDE 
+                                   DE LA TIENDA DESTINO. SI SOLICITASTE ENTREGA A DOMICILIO MEDIANTE UNA GUÍA DE ENVÍO, TU MERCANCÍA LLEGARÁ DE 
+                                   TRES A CINCO DÍAS HÁBILES A PARTIR DEL DEPÓSITO DE TU COMPRA." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="12. ¿QUÉ ES UNA GUÍA DE ENVIÓ?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="ES UN DOCUMENTO QUE CONTIENE LOS DATOS DEL REMITENTE Y DESTINATARIO CON UN NÚMERO DE REFERENCIA 
+                                   PARA EL CONTROL DEL PAQUETE, EL CUAL TIENE UN COSTO VARIABLE SEGÚN LA ZONA. PUEDES ADQUIRIR UNA GUÍA ADICIONAL PARA HACER CAMBIOS O DEVOLUCIONES EN CASO DE REQUERIRLO." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="13. ¿EL COSTO DE ENVIÓ SE ELEVA SI ADQUIERO UN GRAN NÚMERO DE ARTÍCULOS?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="EL COSTO ES APARTIR DE $77.00 MN MÁXIMO 5 KG, Y POR CADA KG ADICIONAL QUE EXCEDA EL PAQUETE SE LE COBRARÁ $8.00 MN." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="NOTA: EL COSTO DEPENDE DE LA ZONA, CONFIRMA LOS PRECIOS CON NUESTRO PERSONAL ANTES DE SOLICITAR EL ENVÍO." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="14. ¿CÓMO SABER SI ESTÁ POR LLEGAR MI MERCANCÍA?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="PARA SABER EL ESTATUS DE TU PEDIDO CONTACTA A LOS TELÉFONOS DE TU TIENDA SC PAKAR O LLAMA 
+                                   DESDE CUALQUIER PARTE DE LA REPÚBLICA AL 01 800 72 72 527 Y CON GUSTO TE ATENDEREMOS" styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="15. *¿CÓMO ACTIVO MI TARJETA DE ACCESO A CATÁLOGO DIGITAL WEB?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="SI YA ERES SOCIO Y COMPRASTE EN LA SUCURSAL SC PAKAR UNA TARJETA DE ACCESO AL CATÁLOGO DIGITAL WEB, 
+                                   RASPA EN EL REVERSO DE LA TARJETA EL RECUADRO PARA VER EL CÓDIGO OCULTO, INGRESA A " styleClass="texto_etiqueta"/>
+                    <p:link href="http://www.scpakar.com" value="WWW.SCPAKAR.COM" target="_blank" styleClass="texto_etiqueta_negrita" style="color: white; text-decoration: underline"/>
+
+                    <p:outputLabel value=" Y DA CLICK EN ACTIVACIÓN DE TARJETA. REGISTRA TU NÚMERO DE SOCIO, CREA UNA CONTRASEÑA PARA TI Y UN USUARIO Y 
+                                   CONTRASEÑA PARA TUS CLIENTES. SI LOS DATOS DE LA TARJETA COINCIDEN YA ERES UN SOCIO DIGITAL Y PUEDES REPARTIR 
+                                   TU PÁGINA WEB A CUANTOS CLIENTES DESEES." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="16. *¿QUÉ PASA SI SE ME OLVIDA O PIERDO LA CONTRASEÑA?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="JUNTO AL CUADRO DE INGRESO A SOCIOS HAY UN BOTÓN LLAMADO "  styleClass="texto_etiqueta" /> 
+                    <p:outputLabel  value="¿OLVIDASTE TU CONTRASEÑA?. " styleClass="texto_etiqueta" style="font-weight:bold;"/> 
+                    <p:outputLabel  value=" DA CLICK Y ANOTA TU NÚMERO DE SOCIO QUE DISTE DE ALTA AL MOMENTO DE TU ACTIVACIÓN. DA CLICK
+                                    EN ENVIAR MENSAJE Y SE TE ENVIARÁ UN CORREO A TU CUENTA CON TU CONTRASEÑA." 
+                                    styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>       
+                    <p:outputLabel  value="17. *¿CÓMO ADMINISTRO LOS PEDIDOS DE MIS CLIENTES?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="INGRESA TU NÚMERO DE SOCIO Y CONTRASEÑA EN EL BOTÓN DE ACCESO A SOCIOS. SI YA TIENES PEDIDOS DE ALGÚN CLIENTE, VERIFICA LOS DATOS, SELECCIONA UN ESTADO Y SUCURSAL A DONDE TE ENVIAREMOS TU PEDIDO Y DA CLICK AL BOTÓN ENVIAR. EN BREVE NUESTRO PERSONAL DE TELEMARKETING SC PAKAR TE CONFIRMARÁ LA EXISTENCIA DE LOS PRODUCTOS." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel  value="18. *¿PUEDO MODIFICAR LOS PRECIOS DE MI CATÁLOGO DIGITAL?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="SÍ, INGRESA TU NÚMERO DE SOCIO Y CONTRASEÑA EN EL BOTÓN DE ACCESO A SOCIOS. MODIFICA EL PORCENTAJE DE GANANCIA Y DA CLICK EN EL BOTÓN DE ACEPTAR. DE INMEDIATO SE MODIFICARÁN LOS PORCENTAJES, EXCEPTO LOS PEDIDOS EXISTENTES." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>                 
+                    <p:outputLabel  value="19. ¿EN QUÉ CONSISTE LA ADMINISTRACIÓN DE DATOS?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="SI ERES UN SOCIO DIGITAL Y YA COMPLETASTE TU PROCESO DE ACTIVACIÓN, PODRÁS ACTUALIZAR EN TODO MOMENTO TUS DATOS COMO CORREO ELECTRÓNICO, FECHA DE NACIMIENTO, NOMBRE, E INCLUSO SUBIR UNA FOTO PARA PERSONALIZAR TU PÁGINA WEB." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>     
+                    <p:outputLabel  value="20. ¿CÓMO HACEN MIS CLIENTES UN PEDIDO DESDE MI PÁGINA WEB?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="REPARTE A TUS CLIENTES TU PÁGINA WEB JUNTO CON EL USUARIO Y CONTRASEÑA QUE CREASTE PARA ELLOS. UNA 
+                                   VEZ QUE INGRESEN A TU PÁGINA PODRÁN VER LOS CATÁLOGOS CON LOS PRECIOS QUE SELECCIONASTE Y AGREGAR 
+                                   PRODUCTOS AL BOTÓN DE PEDIDOS UBICADO EN LA PARTE SUPERIOR, FUNCIONA COMO UN CARRITO DE COMPRA. ES IMPORTANTE 
+                                   QUE LES ACLARES A TUS CLIENTES QUE PARA CONCLUIR SU PEDIDO DEBEN ENTRAR AL BOTÓN &ldquo;CONSULTA TU 
+                                   PEDIDO&rdquo; PARA SELECCIONAR LA TALLA, ESCRIBIR SU NOMBRE Y CORREO ELECTRÓNICO." 
+                                   styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>       
+                    <p:outputLabel  value="21. ¿QUÉ PASA CUANDO UNO DE MIS CLIENTES REALIZA UN PEDIDO?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="SI ERES SOCIO DIGITAL SÓLO DEBERÁS ESTAR PENDIENTE DE TU CUENTA DE CORREO YA QUE RECIBIRÁS DE MANERA 
+                                   AUTOMÁTICA UN AVISO A LA CUENTA QUE REGISTRASTE ENTERÁNDOTE QUE TIENES UNA SOLICITUD PENDIENTE GENERADA DESDE 
+                                   TU PÁGINA WEB. INGRESA A " styleClass="texto_etiqueta"/>
+                    <p:link href="http://www.scpakar.com" value="WWW.SCPAKAR.COM" target="_blank" styleClass="texto_etiqueta_negrita" style="color: white; text-decoration: underline"/>
+
+                    <p:outputLabel value=" Y EN ACCESO A SOCIOS, ADMINISTRADOR DE PEDIDOS,PODRÁS ATENDER LA SOLICITUD DE TU CLIENTE." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>  
+                    <p:outputLabel  value="22. ¿PUEDO HACER DEVOLUCIONES DE PRODUCTOS?" styleClass="texto_etiqueta_negrita" /> <br/>
+                    <p:outputLabel value="CLARO QUE SÍ. ANTES DEBES TOMAR EN CUENTA NUESTRA POLÍTICA DE DEVOLUCIÓN:" styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="SE DEBE PRESENTAR EL TICKET DE COMPRA DEL O LOS PRODUCTOS A DEVOLVER." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="QUE EL ZAPATO NO ESTÉ PISADO, NI SUCIO." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="QUE ESTÉ ESPECIFICADO EN TU ORDEN DE VENTA." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="TIENES #{Pregunta.datos.devCalzado} DÍAS DE GARANTÍA PARA REALIZAR TUS CAMBIOS." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="NOTA: EN ROPA Y ACCESORIOS SON #{Pregunta.datos.devAccesorios} DÍAS Y EN ROPA INTERIOR NO HAY CAMBIOS." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="LAS DEVOLUCIONES DEBERÁN SER EN SU CAJA ORIGINAL." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="NO SE ACEPTAN DEVOLUCIONES DE IMPARES, NI DE CALZADO DE PROMOCIÓN Y/O DESCUENTO." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>   
+                    <p:outputLabel value="23. ¿PUEDO HACER CAMBIOS POR DEFECTOS DE MIS PRODUCTOS?" styleClass="texto_etiqueta_negrita" /><br/>
+                    <p:outputLabel value="SÍ. EL CAMBIO DEL CALZADO PROCEDERÁ BAJO LAS SIGUIENTES CONDICIONES:" styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="EL CAMBIO PROCEDE POR DEFECTOS DE FABRICACIÓN: DESPEGADO, DESCOSTURADO O REVENTADO DE CORREAS." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="EL CAMBIO NO PROCEDE: MOJADO, TACONES, TAPAS, ACCESORIOS (LUCES Y CIERRES), MAL OLOR O MAL USO DEL CLIENTE." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="NOTA: SI EL CALZADO PRESENTA UNA ANOMALÍA DE DUDOSA PROCEDENCIA SE MANDARÁ A REVISIÓN CON EL PROVEEDOR 
+                                   PARA QUE DETERMINE SI EL DEFECTO FUE PROVOCADO POR EL MAL USO DEL CLIENTE O DEFECTO DE FABRICACIÓN, ESTE PROCESO TIENE 
+                                   UNA DURACIÓN DE 3 A 4 DÍAS HÁBILES PARA DAR UNA RESPUESTA." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="SI NUESTRO PERSONAL TE INFORMA QUE LA DEVOLUCIÓN PROCEDE, SE TE PROPORCIONARÁ UN VALE QUE TENDRÁ VIGENCIA 
+                                   DE 3 MESES Y PODRÁS CANJEARLO EN TU SIGUIENTE COMPRA." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>                     
+                    <p:outputLabel value="24. ¿CUÁL ES EL PERIODO DE DEVOLUCIÓN DE MERCANCÍA?" styleClass="texto_etiqueta_negrita" /><br/>
+                    <p:outputLabel value="#{Pregunta.datos.devCalzado} DÍAS HÁBILES DESPUÉS DE LA FECHA DE SU COMPRA." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="NOTA: EN ROPA Y ACCESORIOS SON #{Pregunta.datos.devAccesorios} DÍAS Y EN ROPA INTERIOR NO HAY CAMBIOS." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>                     
+                    <p:outputLabel value="25. ¿CUALES SON LOS REQUERIMIENTOS MÍNIMOS PARA CATÁLOGO DIGITAL WEB.?" styleClass="texto_etiqueta_negrita" /><br/>
+                    <p:outputLabel value="NAVEGADORES: INTERNET EXPLORER 8 O SUPERIOR, GOOGLE CHROME 16 O SUPERIOR, MOZILLA FIREFOX 6.0 O SUPERIOR, 
+                                   OPERA 9.0 O SUPERIOR, SAFARI 5.0 O SUPERIOR, PLUGIN DE ADOBE FLASH 9.0 O SUPERIOR INCLUIDO." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="SISTEMA OPERATIVO: WINDOWS XP CON SERVICE PACK 3, VISTA, 7, MAC OSX, LINUX." styleClass="texto_etiqueta" /><br/>
+                    <p:outputLabel value="RESOLUCIÓN DE PANTALLA: 1024 X 768 PIXELES O SUPERIOR." styleClass="texto_etiqueta" /><br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="*APLICA PARA CATÁLOGO DIGITAL WEB." styleClass="texto_etiqueta_negrita" /><br/>                    
+                </p:panel>
+                <p:commandButton value="Cerrar" process="@this"
+                                 oncomplete="PF('dlgPreguntas').hide();" styleClass="texto_boton"/>
+            </p:panelGrid>
+        </p:dialog>
+    </div>
+
+</html>

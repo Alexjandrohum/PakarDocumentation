@@ -1,0 +1,170 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.grupopakar.grupopakarappws.dao;
+
+import com.grupopakar.grupopakarappws.dto.ComentarioDTO;
+import com.grupopakar.grupopakarappws.dto.TiendaDTO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import mx.com.pakar.util.Factory;
+import mx.com.pakar.util.Util;
+
+/**
+ *
+ * @author carlos.juarez
+ */
+public class ComentarioDAO {
+
+    public List<ComentarioDTO> getComentarios(int idTienda, Connection con) {
+        List<ComentarioDTO> comentarios = new ArrayList<ComentarioDTO>();
+        String query
+                = "SELECT \n"
+                + "	c.id_comentario, c.fecha, \n"
+                + "	e.nombre + ' ' + e.apellido_paterno + ' ' + apellido_materno AS nombre, \n"
+                + "	c.comentario \n"
+                + "FROM aps.comentario c WITH(NOLOCK) \n"
+                + "INNER JOIN aps.usuario u WITH(NOLOCK) ON c.id_usuario = u.id_usuario \n"
+                + "INNER JOIN aps.vw_empleado e WITH(NOLOCK) ON u.numero_control = e.numero_control \n"
+                + "WHERE c.id_tienda = ? AND id_comentario_padre = 0 \n"
+                + "ORDER BY fecha ";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setInt(1, idTienda);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ComentarioDTO c = new ComentarioDTO();
+                c.setIdComentario(rs.getInt("id_comentario"));
+                c.setFecha(rs.getDate("fecha"));
+                c.setNombreUsuario(rs.getString("nombre"));
+                c.setComentario(rs.getString("comentario"));
+                c.getRespuestas().addAll(getRespuestas(c.getIdComentario(), con));
+                comentarios.add(c);
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return comentarios;
+    }
+
+    public List<ComentarioDTO> getRespuestas(int idComentarioPadre, Connection con) {
+        List<ComentarioDTO> comentarios = new ArrayList<ComentarioDTO>();
+        String query
+                = "SELECT \n"
+                + "	c.id_comentario, c.fecha, \n"
+                + "	e.nombre + ' ' + e.apellido_paterno + ' ' + apellido_materno AS nombre, \n"
+                + "	c.comentario \n"
+                + "FROM aps.comentario c WITH(NOLOCK) \n"
+                + "INNER JOIN aps.usuario u WITH(NOLOCK) ON c.id_usuario = u.id_usuario \n"
+                + "INNER JOIN aps.vw_empleado e WITH(NOLOCK) ON u.numero_control = e.numero_control \n"
+                + "WHERE c.id_comentario_padre = ? \n"
+                + "ORDER BY fecha ";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setInt(1, idComentarioPadre);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ComentarioDTO c = new ComentarioDTO();
+                c.setIdComentario(rs.getInt("id_comentario"));
+                c.setFecha(rs.getDate("fecha"));
+                c.setNombreUsuario(rs.getString("nombre"));
+                c.setComentario(rs.getString("comentario"));
+                c.setIdComentarioPadre(idComentarioPadre);
+                comentarios.add(c);
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return comentarios;
+    }
+
+    public boolean registraComentario(ComentarioDTO comentario, String token, int idNotificacion, Connection con) {
+        boolean status = false;
+        String query;
+        PreparedStatement ps = null;
+        try {
+            query = "INSERT INTO aps.comentario \n"
+                    + "SELECT ? AS id_tienda, (SELECT id_usuario FROM aps.usuario WHERE token_usuario = ?) AS id_usuario, ? AS comentario, GETDATE() AS fecha, ? AS id_comentario_padre, " + (idNotificacion == 0 ? "NULL" : idNotificacion) + " AS id_notificacion ";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, comentario.getIdTienda());
+            ps.setString(2, token);
+            ps.setString(3, comentario.getComentario());
+            ps.setInt(4, comentario.getIdComentarioPadre());
+            status = ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            
+        }
+        return status;
+    }
+
+    public int registraNotificacion(int idTipoNotificacion, Connection con) {
+        int status = 0;
+        String query;
+        PreparedStatement ps = null;
+        try {
+            query = "INSERT INTO aps.notificacion \n"
+                    + "SELECT 1 AS id_estatus, ? AS tipo_notificacion, GETDATE() AS fecha_creacion, NULL AS fecha_revision ";
+            ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, idTipoNotificacion);
+            if (ps.executeUpdate() > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    status = rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            
+        }
+        return status;
+    }
+
+    public boolean isSupervisor(int idTienda, String token, Connection con) {
+        boolean status = false;
+        String query;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            query
+                    = "SELECT COUNT(*) AS total \n"
+                    + "FROM aps.tienda \n"
+                    + "WHERE id_tienda = ?\n"
+                    + "AND supervisor = (\n"
+                    + "     SELECT UPPER(apellido_paterno + ' ' + apellido_materno + ' ' + nombre) AS supervisor \n"
+                    + "     FROM aps.vw_empleado \n"
+                    + "     WHERE numero_control = (SELECT numero_control FROM aps.usuario WHERE token_usuario = ?) \n"
+                    + ") COLLATE Modern_Spanish_CI_AS ";
+            ps = con.prepareStatement(query);
+            ps.setInt(1, idTienda);
+            ps.setString(2, token);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                status = rs.getInt("total") > 0;
+            }
+        } catch (Exception e) {
+            Util.registraError(e);
+        } finally {
+            
+        }
+        return status;
+    }
+
+}

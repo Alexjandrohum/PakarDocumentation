@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui">
+
+    <div class="ui-fluid">
+        <p:dialog id="dlgPassword" widgetVar="dlgPassword" responsive="true" resizable="false" position="center middle" showHeader="true"
+                  modal="true"  closeOnEscape="true" styleClass="dialogo_body" fitViewport="true" focus="formulario:txtNombre"> 
+
+            <p:ajax event="close" update="formulario:dlgPassword formulario:panelDatosRecupera" 
+                    listener="#{Recupera.cerrar}"
+                    resetValues="true" />
+
+            <p:outputLabel value="INTRODUCE EL N&Uacute;MERO DE SOCIO Y CORREO CON EL QUE INICIASTE SESI&Oacute;N" 
+                           styleClass="texto_etiqueta" style="font-size: 14px !important;"/>
+            <br/>
+            <p:outputLabel value="PARA RECUPERAR TU CONTRASE&Ntilde;A" 
+                           styleClass="texto_etiqueta" style="font-size: 14px !important;"/>
+            <br/>
+            <br/>
+            <p:panelGrid id="panelDatosRecupera" columns="3" layout="grid"  styleClass="ui-panelgrid-blank" 
+                         style="text-align: right !important;">
+
+                <p:outputLabel value="N&Uacute;MERO DE SOCIO:" styleClass="texto_etiqueta" />
+                <p:inputText id="txtRecuperaNumeroSocio" maxlength="40" value="#{Recupera.idSocio}"
+                             styleClass="texto_entrada" immediate="true"
+                             required="true" requiredMessage="N&Uacute;MERO INV&Aacute;LIDO">
+                    <p:ajax partialSubmit="true" update="formulario:txtRecuperaNumeroSocio" process="@this"/>
+                </p:inputText>
+                <p:message for="formulario:txtRecuperaNumeroSocio" styleClass="texto_mensaje"  />
+
+                <p:outputLabel value="CORREO:" styleClass="texto_etiqueta" />
+                <p:inputText id="txtRecuperaCorreo" maxlength="40" value="#{Recupera.correo}"
+                             styleClass="texto_entrada" immediate="true"
+                             required="true" requiredMessage="CORREO INV&Aacute;LIDO">
+                    <p:ajax partialSubmit="true" update="formulario:txtRecuperaCorreo" process="@this"/>
+                </p:inputText>
+                <p:message for="formulario:txtRecuperaCorreo" styleClass="texto_mensaje"  />
+
+                <p:spacer height="10"/>
+                <p:spacer height="10"/>
+                <p:spacer height="10"/>
+
+                <p:spacer/>
+                <p:outputLabel value="O SI LO PREFIERES" styleClass="texto_etiqueta" style="font-size: 14px !important;"/>
+                <p:spacer/>
+
+            </p:panelGrid>
+            <div class="ui-g">
+                <p:graphicImage value="/resources/estilo/contacto_telefono.png" styleClass="imagen" style="width:100%;"/>
+            </div>
+            <br/>
+            <p:panelGrid columns="1" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center;">
+                <p:outputLabel id="mensajeExitoPassword" value="#{Recupera.mensaje}" styleClass="texto_mensaje_exito" />
+                <p:outputLabel id="mensajeErrorPassword" value="#{Recupera.mensajeError}" styleClass="texto_mensaje_error" />
+
+                <p:panelGrid id="panelBotonesPassword" columns="2" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center;">
+                    <p:commandButton value="Cancelar" process="@this"
+                                     update="formulario:panelDatosRecupera formulario:mensajeExitoPassword formulario:mensajeErrorPassword"
+                                     oncomplete="PF('dlgPassword').hide();" styleClass="texto_boton"/>
+                    <p:commandButton value="Enviar" immediate="true" process="@this" actionListener="#{Recupera.recuperaPassword}"
+                                     update="formulario:panelDatosRecupera formulario:mensajeExitoPassword formulario:mensajeErrorPassword"  styleClass="texto_boton"/>
+                </p:panelGrid>
+            </p:panelGrid>
+        </p:dialog>
+    </div>
+
+</html>

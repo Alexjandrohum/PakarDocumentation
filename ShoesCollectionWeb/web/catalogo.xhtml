@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta property="og:image" content="http://www.pakar.com/shoes_collection.jpg" />
+        <title>SC Pakar - Venta por cat&aacute;logo de calzado, ropa y accesorios</title>
+        <link rel="icon" type="image/png" href="./resources/estilo/favicon.png" />
+        <meta name="viewport" content="width=device-width"/>
+    </h:head>
+    <h:body styleClass="body">
+        <h:outputStylesheet library="css" name="dialogo.css"/>
+        <h:outputStylesheet library="css" name="estilo.css"/>
+        <h:form id="formulario" >
+            <p:messages id="mensajes" autoUpdate="true" closable="true" showDetail="true" />
+            <!-- Encabezado -->
+            <ui:include src="encabezado.xhtml"/>
+            <!-- Menu principal -->
+            <ui:include src="menu_principal.xhtml"/>
+            <!-- Banner -->
+            <!--<ui:include src="banner.xhtml"/>-->
+
+            <div class="ui-fluid">
+                <p:panel id="contenedor" styleClass="contenedor" style="border-radius: 0;">
+                    <p:panelGrid columns="3" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: center;" columnClasses=" ui-grid-col-2,  ui-grid-col-6,  ui-grid-col-4">
+                        <!-- PANEL 1 CATALOGOS -->
+                        <p:dataGrid var="cat" value="#{Catalogo.catalogos}" columns="1" layout="grid"
+                                    paginator="false" emptyMessage="No hay datos" rowIndexVar="index" 
+                                    style=" width: 280px;"
+                                    id="gridCatalogos">
+                            <p:column>
+                                <p:commandLink style="text-decoration: none;" actionListener="#{Catalogo.seleccionaCatalogo(cat)}" 
+                                               process="@this" update="formulario:panelProductos">
+                                    <p:panel styleClass="boton_panel" style="background-color:  #{cat.color} !important;" >
+                                        <p:outputLabel value="#{cat.nombre}" style="color: white;"/>
+                                    </p:panel>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataGrid>
+
+                        <!-- PANEL 2 SECCIONES y PRODUCTOS -->
+                        <p:panelGrid id="panelProductos" columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:dataGrid var="sec" value="#{Catalogo.seccionCatalogo}" columns="8" layout="grid"
+                                        paginator="false" emptyMessage="" rowIndexVar="index" 
+                                        id="gridSeccion">
+                                <p:column>
+                                    <p:commandLink styleClass="link" actionListener="#{Catalogo.seleccionaSeccion(sec)}" 
+                                                   update=":formulario:gridSeccion :formulario:scrollProductos :formulario:gridProductos"
+                                                   process="@this" >
+                                        <p:panel styleClass="boton_panel_seccion" style="background-color: #cccccc !important;" >
+                                            <p:outputLabel id="txtNombreSeccion" value="#{sec.nombre}" styleClass="secciones_texto_#{sec.nombre eq Catalogo.seccion.nombre}"/>
+                                        </p:panel>
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataGrid>
+                            <p:separator style="width: 100%;"/>
+                            <p:scrollPanel id="scrollProductos" mode="native" style="width: 100%; height: 600px;" >
+                                <p:dataGrid var="p" value="#{Catalogo.productosCatalogo}" columns="4" layout="grid"
+                                            paginator="false" emptyMessage="" rowIndexVar="index" lazy="true"
+                                            style=" background-color: white !important;" 
+                                            id="gridProductos">
+                                    <p:column>
+                                        <p:commandLink styleClass="link" actionListener="#{Catalogo.seleccionaProducto(p)}"
+                                                       oncomplete="PF('dlgProducto').show();"
+                                                       update=":formulario:scrollProductoPop :formulario:panelDlgProducto"
+                                                       process="@this" >
+                                            <p:panel  styleClass="ui-panelgrid-blank" style="text-align: center;">
+                                                <center>
+                                                    <div class="ui-g" >
+                                                        <p:graphicImage value="#{p.url}" title="#{p.descripcionNombreMarca}" width="128" height="128" styleClass="imagen"/>
+                                                    </div>
+                                                </center>
+                                                <br/>
+                                                <p:outputLabel value="#{p.codigoVisible} " styleClass="texto_producto" style="font-size: 10px;"/>
+                                                <p:outputLabel value="#{p.descripcionNombreMarca} " styleClass="texto_producto" style="font-size: 10px;"/>
+                                                <br/>
+                                                <p:outputLabel value="#{p.material}" styleClass="texto_producto" style="font-size: 10px;"/>
+                                            </p:panel>
+                                        </p:commandLink>
+                                    </p:column>
+                                </p:dataGrid>
+                            </p:scrollPanel>
+                        </p:panelGrid>
+
+                        <!-- PANEL 3 DESCTACADOS -->
+                        <p:panelGrid id="panelDestacados" columns="1" layout="grid" styleClass="ui-panelgrid-blank">
+                            <p:outputLabel value="Destacados" style="font-size: 24px; font-weight: bold;"/>
+                            <p:separator style="width: 100%;"/>
+                            <p:scrollPanel mode="native" style="width: 100%; height: 600px;" >
+                                <p:dataGrid var="d" value="#{Catalogo.destacados}" columns="1" layout="grid"
+                                            paginator="false" emptyMessage="No hay datos" rowIndexVar="index" 
+                                            style=" background-color: white !important;"
+                                            id="gridDestacados">
+                                    <p:column>
+                                        <p:panel  styleClass="ui-panelgrid-blank" style="text-align: center;">
+                                            <center>
+                                                <div class="ui-g" >
+                                                    <p:graphicImage id="imagenDescatado" value="#{d.urlImagen}" title="#{d.producto.descripcionNombreMarca}" styleClass="imagen"/>
+                                                </div>
+                                            </center>
+
+                                            <p:tooltip id="toolTipDestacados" for="imagenDescatado" trackMouse="true">
+                                                    <p:outputLabel value="#{d.producto.codigoVisible} - #{d.producto.descripcion}"  style="font-size: 10px; "/>
+                                            </p:tooltip>
+
+                                        </p:panel>
+                                    </p:column>
+                                </p:dataGrid>
+                            </p:scrollPanel>
+                        </p:panelGrid>
+
+                    </p:panelGrid>
+                </p:panel>
+            </div>
+
+            <!-- Dialogos -->
+            <ui:include src="dialogo_contacto.xhtml"/>
+            <ui:include src="dialogo_afiliate.xhtml"/>
+            <ui:include src="dialogo_preguntas.xhtml"/>
+            <ui:include src="dialogo_producto.xhtml"/>
+
+            <!-- pie de pagina -->
+            <ui:include src="pie_pagina.xhtml"/>
+        </h:form>
+        <!-- Status -->
+        <!-- PRIMEFACES -->
+        <div class="ui-fluid">
+            <p:ajaxStatus styleClass="estatus" style="width:64px; height:64px; position:fixed; right:5px; bottom:5px"> 
+                <f:facet name="start" >
+                    <p:graphicImage width="60px" height="60px" value="./resources/estilo/control/cargando.gif" styleClass="imagen" />
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>  
+            </p:ajaxStatus> 
+        </div>
+    </h:body>
+</html>

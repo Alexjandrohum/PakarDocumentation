@@ -1,0 +1,53 @@
+package com.grupopakar.grupopakarappws.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import mx.com.pakar.util.Factory;
+import mx.com.pakar.util.Util;
+
+/**
+ *
+ * @author pepe.ruiz
+ */
+public class DispositivoDAO {
+
+    public void registraToken(Connection con, int idUser, String token) {
+        String query = "EXEC gpa.registra_token ?,?";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setInt(1, idUser);
+            ps.setString(2, token);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(ps);
+        }
+    }
+
+    public int getIdUser(Connection con, String tokenUser) {
+        String query = "SELECT id_usuario FROM gpa.usuario WITH(NOLOCK) "
+                + "WHERE token_usuario = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int idUser = -1;
+        try {
+            ps = con.prepareStatement(query);
+            ps.setString(1, tokenUser);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                idUser = rs.getInt("id_usuario");
+            }
+        } catch (SQLException e) {
+            Util.registraError(e);
+        } finally {
+            Factory.close(rs);
+            Factory.close(ps);
+        }
+        return idUser;
+    }
+
+}

@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui">
+    <div class="ui-fluid">
+        <p:panel id="contenedor_carousel" styleClass="contenedor_carousel" style="border-radius: 0;">
+            <p:carousel id="banner" autoPlayInterval="5000" circular="true" numVisible="1" pageLinks="0" 
+                        value="#{Banner.listaBanner}" 
+                        responsive="true" var="banner">
+                <div class="ui-g">
+                    <p:graphicImage value="#{banner.urlImagen}" styleClass="imagen" />
+                </div>
+            </p:carousel>
+        </p:panel>
+    </div>
+</html>

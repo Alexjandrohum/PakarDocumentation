@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <div class="ui-fluid">
+        <p:dialog id="dlgActivacion" widgetVar="dlgActivacion" responsive="true" resizable="false" position="center middle" showHeader="true"
+                  modal="true"  closeOnEscape="true" styleClass="dialogo_body" fitViewport="true" focus="formulario:txtActivaIdSocio"> 
+
+            <p:ajax event="close" update="formulario:dlgActivacion  formulario:panelDatosActivacionSocio" 
+                    resetValues="true" listener="#{Activacion.cerrar}"/>
+
+            <p:panel styleClass="panel_titulo_paso" style="">
+                <p:outputLabel value="ACTIVACION TARJETA DIGITAL WEB" styleClass="texto_etiqueta_negrita" />
+            </p:panel>
+            <p:spacer height="60"/>
+            <p:panelGrid id="panelDatosActivacionSocio" columns="3" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: right !important;">
+                <p:outputLabel value="N&Uacute;MERO DE SOCIO:" styleClass="texto_etiqueta"/>
+                <p:inputText id="txtActivaIdSocio" value="#{Activacion.activa.idSocio}" 
+                             required="true" requiredMessage="INV&Aacute;LIDO" immediate="true"
+                             styleClass="texto_entrada" maxlength="20" >
+                    <p:ajax partialSubmit="true" update="formulario:txtActivaIdSocio" process="@this"/>
+                </p:inputText>
+                <p:message for="formulario:txtActivaIdSocio" styleClass="texto_mensaje"/>
+
+                <p:outputLabel value="SERIE:" styleClass="texto_etiqueta"/>                                
+                <p:inputText id="txtActivaSerie" value="#{Activacion.activa.serie}" 
+                             required="true" requiredMessage="INV&Aacute;LIDO" immediate="true"
+                             styleClass="texto_entrada" maxlength="10" >
+                    <p:ajax partialSubmit="true" update="formulario:txtActivaSerie" process="@this"/>
+                </p:inputText>
+                <p:message for="formulario:txtActivaSerie" styleClass="texto_mensaje"/>
+
+                <p:outputLabel value="C&Oacute;DIGO:" styleClass="texto_etiqueta"/>
+                <p:inputText id="txtActivaCodigo" value="#{Activacion.activa.codigo}"
+                             required="true" requiredMessage="INV&Aacute;LIDO" immediate="true"
+                             styleClass="texto_entrada" maxlength="10" >
+                    <p:ajax partialSubmit="true" update="formulario:txtActivaCodigo" process="@this"/>
+                </p:inputText>
+                <p:message for="formulario:txtActivaCodigo" styleClass="texto_mensaje"/>
+
+                <p:outputLabel value="CORREO:" styleClass="texto_etiqueta"/>
+                <p:inputText id="txtActivaCorreo" value="#{Activacion.activa.correo}" 
+                             required="true" requiredMessage="INV&Aacute;LIDO" immediate="true"
+                             styleClass="texto_entrada" maxlength="100" >
+                    <p:ajax partialSubmit="true" update="formulario:txtActivaCorreo" process="@this"/>
+                </p:inputText>
+                <p:message for="formulario:txtActivaCorreo" styleClass="texto_mensaje"/>
+
+                <p:outputLabel value="CONTRASE&Ntilde;A:" styleClass="texto_etiqueta"/>
+                <p:password id="txtActivaPassword" value="#{Activacion.activa.password}" 
+                            required="true" requiredMessage="INV&Aacute;LIDO" immediate="true"
+                            styleClass="texto_entrada" maxlength="12" redisplay="true">
+                    <p:ajax partialSubmit="true" process=":formulario:txtActivaPassword"/>
+                </p:password>
+                <p:message for="formulario:txtActivaPassword" styleClass="texto_mensaje"/>
+
+                <p:outputLabel value="CONFIRMA CONTRASE&Ntilde;A:" styleClass="texto_etiqueta"/>
+                <p:password id="txtActivaPasswordConf" value="#{Activacion.activa.passwordConfirma}" 
+                            required="true" requiredMessage="INV&Aacute;LIDO" immediate="true"
+                            styleClass="texto_entrada" maxlength="12" redisplay="true">
+                    <p:ajax partialSubmit="true" process=":formulario:txtActivaPasswordConf"/>
+                </p:password>
+                <p:message for="formulario:txtActivaPasswordConf" styleClass="texto_mensaje"/>
+
+
+                <p:keyFilter for="txtActivaCodigo"  mask="num"/>
+
+
+                <f:facet name="footer" class="dialogo_body">
+                    <p:panelGrid columns="1" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center; background: none;">
+                        <p:outputLabel id="mensajeActivaExito" value="#{Activacion.mensaje}" styleClass="texto_mensaje_exito" />
+                        <p:outputLabel id="mensajeActivaError" value="#{Activacion.mensajeError}" styleClass="texto_mensaje_error" />
+
+                        <p:panelGrid columns="2" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center;">
+                            <p:commandButton value="Cancelar" actionListener="#{Activacion.cerrar}" 
+                                             update=":formulario:panelDatosActivacionSocio :formulario:txtActivaPassword 
+                                             :formulario:txtActivaPasswordConf :formulario:mensajeActivaExito :formulario:mensajeActivaError" 
+                                             oncomplete="PF('dlgActivacion').hide()" styleClass="texto_boton" process="@this"/>
+                            <p:commandButton value="Activar" actionListener="#{Activacion.activar}"
+                                             update=":formulario:panelDatosActivacionSocio :formulario:txtActivaPassword 
+                                             :formulario:txtActivaPasswordConf :formulario:mensajeActivaExito :formulario:mensajeActivaError" 
+                                             immediate="true"
+                                             styleClass="texto_boton" process="@this, :formulario:dlgActivacion "/>
+                        </p:panelGrid>
+                    </p:panelGrid>
+                </f:facet>  
+            </p:panelGrid>
+        </p:dialog>
+
+        <p:dialog id="dlgActualizaInformacion" widgetVar="dlgActualizaInformacion"  
+                  responsive="true" resizable="false" position="center middle" showHeader="true"
+                  modal="true"  closeOnEscape="true" styleClass="dialogo_body" fitViewport="true">
+            <p:panelGrid columns="1" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center; background: none;">
+                <p:outputLabel value="TÚ MEMBRESÍA YA FUE ACTIVADA CON OTRO CORREO." styleClass="texto_etiqueta"/>
+                <p:outputLabel value="¿DESEAS ACTUALIZAR EL CORREO VINCULADO A TÚ MEMBRESÍA?" styleClass="texto_etiqueta"/>
+            </p:panelGrid>
+            <p:panelGrid columns="2" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center; background: none;">
+                <p:commandButton value="Si" styleClass="texto_boton" process="@this"
+                                 actionListener="#{Activacion.actualizaCorreo}" immediate="true"
+                                 update=":formulario:panelDatosActivacionSocio :formulario:txtActivaPassword 
+                                 :formulario:txtActivaPasswordConf :formulario:mensajeActivaExito :formulario:mensajeActivaError" 
+                                 icon="ui-icon-check" />
+                <p:commandButton value="No" styleClass="texto_boton" process="@this, :formulario:dlgActualizaInformacion"
+                                 oncomplete="PF('dlgActualizaInformacion').hide();" immediate="true"
+                                 icon="ui-icon-close" />
+            </p:panelGrid>
+        </p:dialog>
+
+    </div>
+</html>

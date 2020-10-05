@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <div class="ui-fluid">
+        <p:dialog id="dlgAfiliacion" widgetVar="dlgAfiliacion" responsive="true" resizable="false" position="center middle" showHeader="true"
+                  modal="true"  closeOnEscape="true" styleClass="dialogo_body" fitViewport="true" focus="formulario:txtAfiNombre"> 
+
+            <p:ajax event="close" update="formulario:dlgAfiliacion formulario:panelDatosPersonales formulario:panelDatosEconomicos" 
+                    resetValues="true" listener="#{Afiliate.cerrar}"/>
+
+            <p:wizard id="panelWizard" widgetVar="wizard" showNavBar="false" showStepStatus="false" backLabel="Atr&aacute;s" nextLabel="Siguiente"  
+                      flowListener="#{Afiliate.onFlowProcess}">
+                <p:tab id="personal" title="Datos Personales">
+                    <p:panel styleClass="panel_titulo_paso" style="">
+                        <p:outputLabel value="SOLICITUD DE AFILIACI&Oacute;N - PASO 1" styleClass="texto_etiqueta_negrita" />
+                    </p:panel>
+                    <p:spacer height="60"/>
+                    <p:panelGrid id="panelDatosPersonales" columns="3" layout="grid" styleClass="ui-panelgrid-blank">
+                        <p:outputLabel value="NOMBRE:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiNombre" value="#{Afiliate.afiliado.nombre}" 
+                                     required="true" requiredMessage="INV&Aacute;LIDO"
+                                     styleClass="texto_entrada" maxlength="100" />
+                        <p:message for="formulario:txtAfiNombre" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="APELLIDOS:" styleClass="texto_etiqueta"/>                                
+                        <p:inputText id="txtAfiApellido" value="#{Afiliate.afiliado.apellidos}" title="PATERNO Y MATERNO EN ESE ORDEN"
+                                     required="true" requiredMessage="INV&Aacute;LIDO"
+                                     styleClass="texto_entrada" maxlength="100" />
+                        <p:message for="formulario:txtAfiApellido" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="DIRECCI&Oacute;N:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiDireccion" value="#{Afiliate.afiliado.direccion}" title="CALLE Y N&Uacute;MERO"
+                                     required="true" requiredMessage="INV&Aacute;LIDO"
+                                     styleClass="texto_entrada" maxlength="40" />
+                        <p:message for="formulario:txtAfiDireccion" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="COLONIA:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiColonia" value="#{Afiliate.afiliado.colonia}" 
+                                     required="true" requiredMessage="INV&Aacute;LIDO"
+                                     styleClass="texto_entrada" maxlength="50" />
+                        <p:message for="formulario:txtAfiColonia" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="C&Oacute;DIGO POSTAL:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiCP" value="#{Afiliate.afiliado.cp}" 
+                                     required="true" requiredMessage="INV&Aacute;LIDO" 
+                                     styleClass="texto_entrada" maxlength="5" />
+                        <p:message for="formulario:txtAfiCP" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="TEL&Eacute;FONO FIJO:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiTelefono" value="#{Afiliate.afiliado.telefono}" 
+                                     required="true" requiredMessage="INV&Aacute;LIDO"
+                                     styleClass="texto_entrada" maxlength="20" />
+                        <p:message for="formulario:txtAfiTelefono" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="TEL&Eacute;FONO CELULAR:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiCelular" value="#{Afiliate.afiliado.celular}" 
+                                     title="IMPORTANTE PARA COMFIRMAR PEDIDOS V&Iacute;A SMS"
+                                     styleClass="texto_entrada" maxlength="20" />
+                        <p:message for="formulario:txtAfiCelular" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="CORREO ELECTR&Oacute;NICO:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiCorreo" value="#{Afiliate.afiliado.correo}" 
+                                     required="true" requiredMessage="INV&Aacute;LIDO"
+                                     styleClass="texto_entrada" maxlength="100" />
+                        <p:message for="formulario:txtAfiCorreo" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="CONFIRMA CORREO ELECTR&Oacute;NICO:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiConfirmaCorreo" value="#{Afiliate.afiliado.correoConfirma}" 
+                                     title="IMPORTANTE CONFIRMAR CUENTA DE CORREO"
+                                     styleClass="texto_entrada" maxlength="100" />
+                        <p:message for="formulario:txtAfiConfirmaCorreo" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="CIUDAD:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtAfiCiudad" value="#{Afiliate.afiliado.ciudad}" 
+                                     required="true" requiredMessage="INV&Aacute;LIDO"
+                                     styleClass="texto_entrada" maxlength="50" />
+                        <p:message for="formulario:txtAfiCiudad" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="ESTADO EN DONDE VIVES:" styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboEstado" value="#{Afiliate.idEstado}" syncTooltip="true"
+                                         required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu" >
+                            <f:selectItem itemLabel="ELIGE UNA OPCIÓN" itemValue="" />
+                            <f:selectItems value="#{Afiliate.estados}" var="est" itemLabel="#{est.nombreEstado}" itemValue="#{est.nombreEstado}" />
+                            <p:ajax update="comboSucursal" listener="#{Afiliate.cambiaEstado}" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboEstado" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="SUCURSAL SCPAKAR M&Aacute;S CERCANA:" styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboSucursal" value="#{Afiliate.idAlmacen}"  
+                                         autoWidth="false" required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu"  >
+                            <f:selectItem itemLabel="ELIGE UNA OPCIÓN" itemValue="" />
+                            <f:selectItems value="#{Afiliate.sucursales}" var="tda" itemLabel="#{tda.nombreDireccion}" itemValue="#{tda.idAlmacen}" />
+                            <p:ajax update="formulario:comboSucursal"  />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboSucursal" styleClass="texto_mensaje"/>
+
+                        <p:keyFilter for="txtAfiCP"  mask="num"/>
+
+
+                        <f:facet name="footer" class="dialogo_body">
+                            <p:panelGrid columns="2" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center;">
+                                <p:commandButton value="Cancelar" actionListener="#{Afiliate.cerrar}" update="formulario:comboSucursal"
+                                                 oncomplete="PF('dlgAfiliacion').hide()" styleClass="texto_boton" process="@this"/>
+                                <p:commandButton value="Siguiente" onclick="PF('wizard').next();"
+                                                 styleClass="texto_boton" process="@this"/>
+                            </p:panelGrid>
+                        </f:facet>  
+
+                    </p:panelGrid>
+                </p:tab>
+                <p:tab id="economico" title="Datos Econ&oacute;micos">
+                    <p:panel styleClass="panel_titulo_paso" >
+                        <p:outputLabel value="SOLICITUD DE AFILIACI&Oacute;N - PASO 2" styleClass="texto_etiqueta_negrita" />
+                    </p:panel>
+                    <p:panelGrid id="panelDatosEconomicos" columns="3" layout="grid"  styleClass="ui-panelgrid-blank" >
+
+                        <p:outputLabel value="ESTADO CIVIL:" styleClass="texto_etiqueta" />  
+                        <p:selectOneMenu id="comboEstadoCivil" value="#{Afiliate.afiliado.estadoCivil}" required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu"  >
+                            <f:selectItem itemLabel="ELIGE" itemValue="" />
+                            <f:selectItem itemLabel="SOLTERO" itemValue="SOLTERO" />
+                            <f:selectItem itemLabel="CASADO" itemValue="CASADO" />
+                            <f:selectItem itemLabel="VIUDO" itemValue="VIUDO" />
+                            <f:selectItem itemLabel="DIVORCIADO" itemValue="DIVORCIADO" />
+                            <f:selectItem itemLabel="UNI&Oacute;N LIBRE" itemValue="UNION LIBRE" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboEstadoCivil" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="GRADO M&Aacute;XIMO DE ESTUDIOS:" styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboMaxEstudios" value="#{Afiliate.afiliado.estudios}"  required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu"  >
+                            <f:selectItem itemLabel="ELIGE" itemValue="" />
+                            <f:selectItem itemLabel="NINGUNO" itemValue="NINGUNO" />
+                            <f:selectItem itemLabel="PRIMARIA" itemValue="PRIMARIA" />
+                            <f:selectItem itemLabel="SECUNDARIA" itemValue="SECUNDARIA" />
+                            <f:selectItem itemLabel="PREPARATORIA" itemValue="PREPARATORIA" />
+                            <f:selectItem itemLabel="LICENCIATURA" itemValue="LICENCIATURA" />
+                            <f:selectItem itemLabel="POSGRADO" itemValue="POSGRADO" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboMaxEstudios" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="N&Uacute;MERO DE DEPENDIENTES ECON&Oacute;MICOS:" styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboDependientes" value="#{Afiliate.afiliado.dependientes}"  required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu" >
+                            <f:selectItem itemLabel="ELIGE" itemValue="" />
+                            <f:selectItem itemLabel="0" itemValue="0" />
+                            <f:selectItem itemLabel="1" itemValue="1" />
+                            <f:selectItem itemLabel="2" itemValue="2" />
+                            <f:selectItem itemLabel="3" itemValue="3" />
+                            <f:selectItem itemLabel="4" itemValue="4" />
+                            <f:selectItem itemLabel="5" itemValue="5" />
+                            <f:selectItem itemLabel="6" itemValue="6" />
+                            <f:selectItem itemLabel="M&Aacute;S DE 6" itemValue="MAS DE 6" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboDependientes" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="OCUPACI&Oacute;N ACTUAL:" styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboOcupacion" value="#{Afiliate.afiliado.ocupacion}" required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu">
+                            <f:selectItem itemLabel="ELIGE" itemValue="" />
+                            <f:selectItem itemLabel="AMA DE CASA" itemValue="AMA DE CASA" />
+                            <f:selectItem itemLabel="ESTUDIANTE" itemValue="ESTUDIANTE" />
+                            <f:selectItem itemLabel="OBRERO" itemValue="OBRERO" />
+                            <f:selectItem itemLabel="EMPLEADO" itemValue="EMPLEADO" />
+                            <f:selectItem itemLabel="COMERCIANTE" itemValue="COMERCIANTE" />
+                            <f:selectItem itemLabel="PROFESIONISTA INDEPENDIENTE" itemValue="PROFESIONISTA INDEPENDIENTE" />
+                            <f:selectItem itemLabel="DESEMPLEADO" itemValue="DESEMPLEADO" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboOcupacion" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="¿C&Oacute;OMO TE ENTERASTE DE SC PAKAR?: " styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboEnteraste" value="#{Afiliate.afiliado.enteraste}"  required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu" >
+                            <f:selectItem itemLabel="ELIGE" itemValue="" />
+                            <f:selectItem itemLabel="RADIO" itemValue="RADIO" />
+                            <f:selectItem itemLabel="PUBLICIDAD URBANA(ESPECTACULARES)" itemValue="PUBLICIDAD URBANA" />
+                            <f:selectItem itemLabel="RECOMENDACION" itemValue="RECOMENDACION" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboEnteraste" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="RAZONES POR LAS QUE QUIERES VENDER SC PAKAR: " styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboRazones" value="#{Afiliate.afiliado.razon}" required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu" >
+                            <f:selectItem itemLabel="ELIGE" itemValue="" />
+                            <f:selectItem itemLabel="APOYO ECON&Oacute;MICO" itemValue="APOYO ECONOMICO" />
+                            <f:selectItem itemLabel="P&Eacute;RDIDA DE EMPLEDO" itemValue="PERDIDA DE EMPLEDO" />
+                            <f:selectItem itemLabel="MANTENIMIENTO DEL HOGAR" itemValue="MANTENIMIENTO DEL HOGAR" />
+                            <f:selectItem itemLabel="PAGO DE ESTUDIOS" itemValue="PAGO DE ESTUDIOS" />
+                            <f:selectItem itemLabel="PASATIEMPO" itemValue="PASATIEMPO" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboRazones" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="¿VENDES OTROS PRODUCTOS POR CAT&Aacute;LOGO?: " styleClass="texto_etiqueta"/>
+                        <p:selectOneMenu id="comboOtrosProductos" value="#{Afiliate.afiliado.otro}" required="true" requiredMessage="INV&Aacute;LIDO"
+                                         styleClass="texto_select_menu" >
+                            <f:selectItem itemLabel="ELIGE" itemValue="" />
+                            <f:selectItem itemLabel="SI" itemValue="SI" />
+                            <f:selectItem itemLabel="NO" itemValue="NO" />
+                        </p:selectOneMenu>
+                        <p:message for="formulario:comboOtrosProductos" styleClass="texto_mensaje"/>
+
+                        <p:spacer width="10"/>
+                        <p:inputText id="txtOtraMarca" value="#{Afiliate.afiliado.catalogos}" styleClass="texto_entrada" maxlength="100"/>
+                        <p:watermark for="txtOtraMarca" value="¿CU&Aacute;L MARCA?"/>
+
+                        <f:facet name="footer" class="dialogo_body">
+                            <p:panelGrid columns="1" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center; background: none;">
+                                <p:outputLabel id="mensajeErrorWizar" value="#{Afiliate.mensaje}" styleClass="texto_mensaje_error" />
+                                <p:panelGrid columns="2" layout="grid"  styleClass="ui-panelgrid-blank" style="text-align: center;">
+                                    <p:commandButton value="Atr&aacute;s" onclick="PF('wizard').back();" styleClass="texto_boton" process="@this"/>
+                                    <p:commandButton value="Siguiente" onclick="PF('wizard').next();" actionListener="#{Afiliate.guarda}" 
+                                                     update="formulario:mensajeErrorWizar" styleClass="texto_boton" process="@this"/>
+                                </p:panelGrid>
+                            </p:panelGrid>
+                        </f:facet>  
+                    </p:panelGrid>
+                </p:tab>
+                <p:tab id="gracias" title="Finalizar">
+                    <p:panelGrid id="panelDatosFinalizar" columns="1" layout="grid"  styleClass="ui-panelgrid-blank">
+                        <p:outputLabel value="GRACIAS POR TU PREFERENCIA" styleClass="texto_etiqueta_negrita" />
+                        <p:spacer height="5"/>
+                        <p:outputLabel value="EN BREVE RECIBIR&Aacute;S UN CORREO CON LOS DATOS BANCARIOS" styleClass="texto_etiqueta_negrita" />
+                        <p:spacer height="5"/>
+                        <p:outputLabel value="PARA HACER TU DEP&Oacute;SITO EN VENTANILLA O TRANSFERENCIA ELECTR&Oacute;NICA" styleClass="texto_etiqueta_negrita"/>
+                        <p:spacer height="60"/>
+                        <f:facet name="footer" class="dialogo_body">
+                            <p:commandButton value="Cerrar" actionListener="#{Afiliate.cerrar}" process="@this"
+                                             oncomplete="PF('dlgAfiliacion').hide()" styleClass="texto_boton"/>
+                        </f:facet>
+                    </p:panelGrid>
+                </p:tab>
+            </p:wizard>
+
+        </p:dialog>
+
+    </div>
+
+</html>

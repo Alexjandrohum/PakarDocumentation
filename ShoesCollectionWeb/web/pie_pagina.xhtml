@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui">
+    <div class="ui-fluid">
+        <p:panel id="contenedor_pie_pagina" styleClass="pie" style="margin: 0 auto; text-align: center !important;">
+            <!-- Pie -->
+            <p:panelGrid layout="grid"  styleClass="ui-panelgrid-blank" columns="9" >
+                <p:spacer width="400" height="0"/>
+                <p:outputLabel value="GRUPO PAKAR &copy;. TODOS LOS DERECHOS RESERVADOS" styleClass="pie_texto" />
+                <p:outputLabel value="|" styleClass="pie_texto" />
+                <p:link outcome="terminos" styleClass="link" >
+                    <p:outputLabel value="AVISO DE PRIVACIDAD" styleClass="pie_texto" />
+                </p:link>
+                <p:outputLabel value="|" styleClass="pie_texto" />
+                <p:outputLabel value="LOS COLORES DE LOS PRODUCTOS PUEDEN VARIAR EN CADA MONITOR" styleClass="pie_texto" />
+                <p:outputLabel value="|" styleClass="pie_texto" />
+                <p:link target="_blank" href="http://es-la.facebook.com/ShoesCollectionPakar" styleClass="link" >
+                    <p:outputLabel value="ENCU&Eacute;NTRANOS EN" styleClass="pie_texto" />
+                </p:link>
+                <p:link target="_blank" href="http://es-la.facebook.com/ShoesCollectionPakar" styleClass="link" >
+                    <p:graphicImage value="./resources/estilo/facebook.png" styleClass="imagen" />
+                </p:link>
+            </p:panelGrid>
+        </p:panel>
+    </div>
+</html>

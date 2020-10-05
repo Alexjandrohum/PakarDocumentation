@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta property="og:image" content="http://www.pakar.com/shoes_collection.jpg" />
+        <title>SC Pakar - Venta por cat&aacute;logo de calzado, ropa y accesorios</title>
+        <link rel="icon" type="image/png" href="./resources/estilo/favicon.png" />
+        <meta name="viewport" content="width=device-width"/>
+    </h:head>
+    <h:body styleClass="body">
+        <h:outputStylesheet library="css" name="dialogo.css"/>
+        <h:outputStylesheet library="css" name="estilo.css"/>
+
+        <h:form id="formulario" >
+             <p:messages id="mensajes" autoUpdate="true" closable="true" showDetail="true" />
+            <!-- Encabezado -->
+            <ui:include src="encabezado.xhtml"/>
+            <!-- Menu principal -->
+            <ui:include src="menu_principal.xhtml"/>
+            <!-- Banner -->
+            <!--<ui:include src="banner.xhtml"/>-->
+            <div class="ui-fluid">
+                <p:outputLabel value="P&aacute;gina de cliente en Construcci&oacute;n"/>
+            </div>
+            
+            <!-- Dialogos -->
+            <ui:include src="dialogo_contacto.xhtml"/>
+            <ui:include src="dialogo_afiliate.xhtml"/>
+            <ui:include src="dialogo_preguntas.xhtml"/>
+            
+            <!-- pie de pagina -->
+            <ui:include src="pie_pagina.xhtml"/>
+        </h:form>
+
+        <!-- Status -->
+        <!-- PRIMEFACES -->
+        <div class="ui-fluid">
+            <p:ajaxStatus styleClass="estatus" style="width:64px; height:64px; position:fixed; right:5px; bottom:5px"> 
+                <f:facet name="start" >
+                    <p:graphicImage width="60px" height="60px" value="./resources/estilo/control/cargando.gif" styleClass="imagen" />
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>  
+            </p:ajaxStatus> 
+        </div>
+    </h:body>
+</html>

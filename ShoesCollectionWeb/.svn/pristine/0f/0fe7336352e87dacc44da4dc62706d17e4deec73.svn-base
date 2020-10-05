@@ -1,0 +1,61 @@
+package com.scpakar.scpakarweb.dto;
+
+import java.io.Serializable;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import mx.com.pakar.util.Factory;
+import mx.com.pakar.util.Util;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
+
+/**
+ *
+ * @author pablo.martinez
+ */
+public class LazyDataModelProducto extends LazyDataModel<ProductoDTO> implements Serializable {
+
+    @SuppressWarnings("FieldMayBeFinal")
+    private List<ProductoDTO> productosCatalogo;
+
+    public LazyDataModelProducto(List<ProductoDTO> productosCatalogo) {
+        this.productosCatalogo = productosCatalogo;
+    }
+
+    public LazyDataModelProducto() {
+        this.productosCatalogo = new ArrayList<>();
+    }
+
+    @Override
+    public List<ProductoDTO> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+        List<ProductoDTO> data = new ArrayList<>();
+
+        //rowCount
+        int dataSize = productosCatalogo.size();
+        this.setRowCount(dataSize);
+
+        //paginate
+        if (dataSize > pageSize) {
+            try {
+                data = new ArrayList<>(productosCatalogo.subList(first, first + pageSize));
+            } catch (Exception e) {
+                Util.registraError(e);
+                try {
+                    data = new ArrayList<>(productosCatalogo.subList(first, first + (dataSize % pageSize)));
+                } catch (Exception ex) {
+                    Util.registraError(ex);
+                }
+            }
+        } else {
+            data = new ArrayList<>(productosCatalogo);
+        }
+        return data;
+    }
+
+    @Override
+    public int getRowCount() {
+        return super.getRowCount(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+}

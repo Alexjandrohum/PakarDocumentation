@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <meta property="og:image" content="http://www.pakar.com/shoes_collection.jpg" />
+        <title>SC Pakar - Venta por cat&aacute;logo de calzado, ropa y accesorios</title>
+        <link rel="icon" type="image/png" href="./resources/estilo/favicon.png" />
+        <meta name="viewport" content="width=device-width"/>
+    </h:head>
+    <h:body styleClass="body">
+        <h:outputStylesheet library="css" name="dialogo.css"/>
+        <h:form id="formulario" >
+            <div class="ui-fluid ui-grid ui-grid-responsive">
+                <p:commandLink onsuccess="PF('dlgContacto').show();">
+                    <h:outputText value="CONTACTO" style="color: white;"/>
+                </p:commandLink>
+                <h:outputText value=" | " />
+                <p:commandLink onsuccess="PF('dlgAfiliacion').show();">
+                    <h:outputText value="AFILIACION" style="color: white;"/>
+                </p:commandLink>
+                <h:outputText value=" | " />
+                <p:commandLink onsuccess="PF('dlgPreguntas').show();">
+                    <h:outputText value="PREGUNTAS" style="color: white;"/>
+                </p:commandLink>
+                <h:outputText value=" | " />
+                <p:link outcome="catalogo" value="CATALOGO" style="color: white;"/>
+                <h:outputText value=" | " />
+                <p:commandLink onsuccess="PF('dlgPrueba').show();">
+                    <h:outputText value="PRUEBA" style="color: white;"/>
+                </p:commandLink>
+
+                <ui:include src="dialogo_contacto.xhtml"/>
+                <ui:include src="dialogo_afiliate.xhtml"/>
+                <ui:include src="dialogo_preguntas.xhtml"/>
+
+
+                <p:dialog id="dlgPrueba" widgetVar="dlgPrueba" responsive="true" resizable="false" position="center middle" showHeader="true"
+                          positionType="absolute" 
+                          modal="true"  closeOnEscape="true" styleClass="dialogo_body" fitViewport="true" focus="formulario:txtNombre"> 
+
+                    <p:ajax event="close" resetValues="true" update="formulario:dlgPrueba formulario:panelDatosContacto1"
+                            listener="#{Contacto.limpiar}"/>
+
+                    <p:panelGrid id="panelDatosContacto1" columns="3" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" layout="grid"  styleClass="ui-panelgrid-blank">
+                        <p:outputLabel value="NOMBRE(S) APELLIDOS:" styleClass="texto_etiqueta" />
+                        <p:inputText id="txtNombre1" maxlength="40" value="#{Contacto.contactoDto.nombre}"
+                                     styleClass="texto_entrada" immediate="true"
+                                     required="true" requiredMessage="NOMBRE INV&Aacute;LIDO">
+                            <p:ajax partialSubmit="true" update="formulario:txtNombre1" process="@this"/>
+                        </p:inputText>
+                        <p:message for="formulario:txtNombre1" styleClass="texto_mensaje"  />
+
+                        <p:outputLabel value="CORREO ELECTR&Oacute;NICO:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtCorreo1" maxlength="100" value="#{Contacto.contactoDto.correo}"
+                                     styleClass="texto_entrada" immediate="true"
+                                     required="true" requiredMessage="CORREO INV&Aacute;LIDO">
+                            <p:ajax partialSubmit="true" update="formulario:txtCorreo1" process="@this"/>
+                        </p:inputText>
+                        <p:message for="formulario:txtCorreo1" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="TEL&Eacute;FONO FIJO:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtTelefonoFijo1" maxlength="20" value="#{Contacto.contactoDto.telefono}"
+                                     styleClass="texto_entrada" immediate="true"
+                                     required="true" requiredMessage="TEL&Eacute;FONO INV&Aacute;LIDO">
+                            <p:ajax partialSubmit="true" update="formulario:txtTelefonoFijo1" process="@this"/>
+                        </p:inputText>
+                        <p:message for="formulario:txtTelefonoFijo1" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="TEL&Eacute;FONO CELULAR:" styleClass="texto_etiqueta"/>
+                        <p:inputText id="txtTelefonoCelular1" maxlength="20" value="#{Contacto.contactoDto.celular}"
+                                     styleClass="texto_entrada" immediate="true"
+                                     required="true" requiredMessage="TEL&Eacute;FONO INV&Aacute;LIDO">
+                            <p:ajax partialSubmit="true" update="formulario:txtTelefonoCelular1" process="@this"/>
+                        </p:inputText>
+                        <p:message for="formulario:txtTelefonoCelular1" styleClass="texto_mensaje"/>
+
+                        <p:outputLabel value="MENSAJE:" styleClass="texto_etiqueta"/>
+                        <p:inputTextarea id="txtMensaje1" value="#{Contacto.contactoDto.mensaje}" required="true" requiredMessage="MENSAJE INV&Aacute;LIDO"
+                                         styleClass="texto_entrada_area" immediate="true"
+                                         maxlength="8000" >
+                            <p:ajax partialSubmit="true" update="formulario:txtMensaje1" process="@this"/>
+                        </p:inputTextarea>
+                        <p:message for="formulario:txtMensaje1" styleClass="texto_mensaje"/>
+
+                        <f:facet name="footer" class="dialogo_body">
+                            <p:panelGrid columns="1" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: center; background: none;">
+                                <p:outputLabel id="mensajeExito1" value="#{Contacto.mensaje}" styleClass="texto_mensaje_exito" />
+                                <p:outputLabel id="mensajeError1" value="#{Contacto.mensajeError}" styleClass="texto_mensaje_error" />
+
+                                <p:panelGrid id="panelBotonesContacto1" columns="2" layout="grid" styleClass="ui-panelgrid-blank" style="text-align: center;">
+                                    <p:commandButton value="Cancelar" 
+                                                     update="formulario:panelDatosContacto1 formulario:mensajeExito1 formulario:mensajeError1"
+                                                     oncomplete="PF('dlgPrueba').hide();" />
+                                    <p:commandButton value="Enviar" actionListener="#{Contacto.enviaCorreo}" immediate="true" 
+                                                     update="formulario:panelDatosContacto1 formulario:mensajeExito1 formulario:mensajeError1"  />
+                                </p:panelGrid>
+                            </p:panelGrid>
+                        </f:facet>  
+                    </p:panelGrid>
+                </p:dialog>
+            </div>
+        </h:form>
+        <!-- Status -->
+        <!-- PRIMEFACES -->
+        <div class="ui-fluid">
+            <p:ajaxStatus styleClass="estatus" style="width:64px; height:64px; position:fixed; right:5px; bottom:5px"> 
+                <f:facet name="start" >
+                    <p:graphicImage width="60px" height="60px" value="./resources/estilo/control/cargando.gif" styleClass="imagen" />
+                </f:facet>
+                <f:facet name="complete">
+                    <h:outputText value="" />
+                </f:facet>  
+            </p:ajaxStatus> 
+        </div>
+    </h:body>
+</html>
